@@ -10,3 +10,4 @@ Route::view('/profile', 'profile');
 Route::view('/sign-in', 'sign-in');
 Route::view('/register', 'register');
 
+Route::view('/jokes', 'jokes');

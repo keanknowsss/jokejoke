@@ -1,0 +1,263 @@
+.jokes-container {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+}
+.profile-bar, .link-container {
+    width: 25%;
+}
+.feed-bar {
+    width: 50%;
+    padding: 5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+.link-container {
+    position: sticky;
+    top: 3rem;
+    right:0;
+    height: fit-content;
+}
+
+.profile-bar-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.user-info-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar-img {
+    border-radius: 100%;
+    overflow: hidden;
+    width: max-content;
+}
+
+.sidebar-navlinks {
+    display: flex;
+    flex-direction: column;
+    gap: 2.2rem;
+    margin: auto;
+    width: 50%;
+    padding-left: 12%
+}
+
+.sidebar-navlinks div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* Links */
+.sidebar-navlinks div p {
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: ease-in 0.15s all;
+}
+.sidebar-navlinks div p:hover {
+    background-color: black;
+    color: white;
+}
+
+.sidebar-navlinks div p i {
+    margin-right: 4px;
+}
+
+
+
+
+
+.add-post-container {
+    width: 100%;
+    border: 1px solid black;
+    border-radius: 21px;
+}
+.add-post-container .post-input-container {
+    border-bottom: 1px solid black;
+    padding: 12px;
+    display: flex;
+    gap: 10px;
+}
+.xs-image-container {
+    height: 32px;
+    width: 32px;
+    overflow: hidden;
+    border-radius: 100%;
+}
+.xs-image-container>img {
+    height: 100%;
+    width: 100%;
+}
+
+.post-input-container textarea {
+    width: 100%;
+    resize: none;
+    font-size: 14px;
+    background: none;
+    overflow: hidden;
+    min-height: 70px;
+}
+.post-input-container textarea:hover, .post-input-container textarea:focus, .post-input-container textarea:active {
+    border: none;
+    outline: none;
+}
+
+.add-post-container .post-buttons-container {
+    padding: 10px 1rem;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.post-buttons-container .attachment-buttons {
+    display: flex;
+    gap: 1rem;
+}
+.attachment-buttons i {
+    margin-right: 4px;
+}
+.post-buttons-container button {
+    font-size: 14px;
+    font-weight: bold;
+    transition: ease-in 0.15s opacity;
+    opacity: 0.9;
+}
+.post-buttons-container button:hover {
+    opacity: 1;
+}
+
+.submit-button {
+    padding: 5px 3rem;
+    background-color: var(--blue-1);
+    border-radius: 21px;
+    border: 1px solid black;
+    opacity: 0.9;
+
+}
+.submit-button:hover {
+    opacity: 1;
+}
+
+
+
+
+.feed-content-container {
+    padding: 1rem 1rem 1rem 3%;
+}
+
+.user-info-post-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+.user-info-post-container .post-name {
+    font-size: 14px;
+    font-weight: bold;
+}
+.user-info-post-container .post-time {
+    font-size: 11px;
+    font-weight: light;
+}
+.sm-image-container {
+    height: 42px;
+    width: 42px;
+    border-radius: 100%;
+    overflow: hidden;
+}
+.sm-image-container>img {
+    height: 100%;
+    width: 100%;
+}
+.other-post-buttons-container {
+    display: flex;
+    gap: 25px;
+    padding: 15px 0 15px 13px;
+    font-weight: bold;
+}
+.other-post-buttons-container button {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.post-comment-container {
+    margin-left: 1rem;
+    /* margin-top: 5px; */
+}
+.post-comment-container .comment-text-container {
+    display: flex;
+    align-items: center;
+    border: var(--black-1) 1px solid;
+    padding: 6px;
+    border-radius: 30px;
+    background-color: var(--white-1);
+}
+.comment-text-container textarea {
+    resize: none;
+    height: 2.2rem;
+    font-size: 15px;
+    margin-inline: 10px 5px;
+    flex: 1;
+    padding-top: 5px;
+    padding-left: 2px;
+    background: none;
+}
+.comment-text-container textarea:focus, .comment-text-container textarea:active {
+    border: none;
+    outline: none;
+}
+.comment-text-container button {
+    background: var(--black-1);
+    border-radius: 100%;
+    color: white;
+    height: 32px;
+    width: 32px;
+}
+
+
+.other-comment-content {
+    display: flex;
+    gap: 12px;
+    font-size: 14px;
+}
+.other-comment-content .other-comment-name {
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+.other-comment-content .other-comment-time {
+    font-size: 10px;
+    font-weight: light;
+    margin-top: 7px
+}
+
+.post-attachment-container .attachment-content {
+    width: 100%;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    border: 5px solid black;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+
+.link-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 2rem;
+    gap: 2rem;
+}
+
+.btn-link {
+    color: var(--blue-1);
+    text-decoration: underline;
+}
+

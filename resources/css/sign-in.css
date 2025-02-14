@@ -92,6 +92,7 @@
 
 .btn-link {
     color: var(--blue-1);
+    text-decoration: underline;
 }
 
 .sign-in-buttons-container {
