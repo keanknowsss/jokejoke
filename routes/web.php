@@ -11,5 +11,6 @@ Route::view('/profile', 'profile');
 Route::view('/sign-in', 'sign-in');
 
 Route::get('/register', [RegisterController::class, 'create']);
+Route::post('/register', [RegisterController::class, 'store'])->name('user.register.store');
 
 Route::view('/jokes', 'jokes');
