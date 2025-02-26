@@ -13,6 +13,7 @@
     --white-1: #FFF8F0;
     --black-1: #191817;
     --red-1: #D1462F;
+    --red-2: #D1462FA5;
     --green-1: #7DC95E;
     --yellow-1: #F0A202;
     --blue-1: #08B7FC;
@@ -25,3 +26,14 @@ body {
     font-weight: 400;
 }
 
+.form-label {
+    color: var(--black-1);
+}
+
+.form-input {
+    padding: 18px 1rem;
+    box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.25);
+    -webkit-box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 13px;
+}

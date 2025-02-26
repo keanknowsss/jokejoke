@@ -75,7 +75,7 @@
     position: relative;
 }
 
-.input-field>.password-field input[type="password"] {
+.input-field>.password-field input#password {
     padding: 18px 3rem 18px 1rem;
     width: 100%;
 }
@@ -158,4 +158,14 @@
 }
 .name-input-container div {
     width: calc(50% - 13px);
+}
+
+.input-error {
+    outline: 2px solid var(--red-2) !important;
+    border: none;
+}
+
+.input-error:focus, .input-error:active {
+    border: none;
+    outline: 2px solid var(--red-1) !important;
 }

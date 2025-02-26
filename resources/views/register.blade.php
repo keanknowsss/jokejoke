@@ -16,43 +16,45 @@
                 <h1>Create an Account</h1>
                 <h2>Welcome! Please complete the form to register.</h2>
             </div>
-            <form action="" class="register-form">
+
+            <form action="{{ route('user.register.store') }}" method="POST" class="register-form">
                 @csrf
 
                 <div class="register-fields-container">
                     <div class="name-input-container">
                         <div class="input-field">
-                            <label for="first-name">First Name</label>
-                            <input type="text" name="first_name" id="first-name" placeholder="e.g. John" required>
+                            <x-form-label for="first-name">First Name</x-form-label>
+                            <x-form-input type="text" name="first_name" id="first-name" placeholder="e.g. John" required />
+                            <x-form-error name="first_name" />
                         </div>
+
 
                         <div class="input-field">
-                            <label for="last-name">Last Name</label>
-                            <input type="text" name="last_name" id="last-name" placeholder="e.g. Doe" required>
+                            <x-form-label for="last-name">Last Name</x-form-label>
+                            <x-form-input type="text" name="last_name" id="last-name" placeholder="e.g. Doe" required />
+                            <x-form-error name="last_name" />
                         </div>
+
                     </div>
 
                     <div class="input-field">
-                        <label for="email">Email Address</label>
-                        <input type="email" name="email" id="email" placeholder="Enter your Email Address here" required>
+                        <x-form-label for="email">Email Address</x-form-label>
+                        <x-form-input type="email" name="email" id="email" placeholder="Enter your Email Address here" required />
+                        <x-form-error name="email" />
                     </div>
 
+
                     <div class="input-field">
-                        <label for="username">Username</label>
-                        <input type="text" name="username" id="username" placeholder="Enter your Username here" required>
+                        <x-form-label for="username">Username</x-form-label>
+                        <x-form-input type="text" name="username" id="username" placeholder="Enter your Username here" required />
+                        <x-form-error name="username" />
                     </div>
+
 
                     <div class="input-field">
                         <label for="password">Password</label>
-                        <div class="password-field">
-                            <input type="password" name="password" id="password" placeholder="Enter your Password">
-                            <button type="button">
-                                <i class="fa-regular fa-eye"></i>
-                            </button>
-                            <button type="button" style="display: none;">
-                                <i class="fa-regular fa-eye-slash"></i>
-                            </button>
-                        </div>
+                        <x-form-input type="password" name="password" id="password" placeholder="Enter your Password" />
+                        <x-form-error name="password" />
                     </div>
                 </div>
 
@@ -63,7 +65,7 @@
                         <span>OR</span>
                         <div class="line"></div>
                     </div>
-                    <button type="button" id="google-register-button"><span><img src="{{ asset('assets/icons/google.png') }}" alt="google"></span>
+                    <button type="button" id="google-register-button" type="button"><span><img src="{{ asset('assets/icons/google.png') }}" alt="google"></span>
                         Continue with Google</button>
                 </div>
 
