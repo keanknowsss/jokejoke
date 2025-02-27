@@ -46,7 +46,7 @@
     outline: 2px solid var(--red-1) !important;
 }
 
-#google-sign-in-button {
+#google-button {
     display: flex;
     justify-content: center;
     gap: 10px;

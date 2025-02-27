@@ -4,31 +4,35 @@
     @vite('resources/css/feed.css')
 @endpush
 
-@section('title', 'Joke Feed')
+@section('title', auth()->check() ? 'Joke Feed' : 'Joke! Have a laugh')
 
 @section('content')
     <div class="feed-container">
         <livewire:sidebar />
         <main class="feed-bar">
-            <form class="add-post-container">
-                <div class="post-input-container">
-                    <div>
-                        <div class="xs-image-container"><img src="https://picsum.photos/32" alt="user-post"></div>
+
+            @auth
+                <form class="add-post-container">
+                    <div class="post-input-container">
+                        <div>
+                            <div class="xs-image-container"><img src="https://picsum.photos/32" alt="user-post"></div>
+                        </div>
+                        <textarea name="" id="" placeholder="Make us laugh..." rows="3"></textarea>
                     </div>
-                    <textarea name="" id="" placeholder="Make us laugh..." rows="3"></textarea>
-                </div>
-                <div class="post-buttons-container">
-                    <div class="attachment-buttons">
-                        <button type="button"><i class="fa-solid fa-paperclip"></i> File</button>
-                        <button type="button"><i class="fa-regular fa-image"></i> Image</button>
+                    <div class="post-buttons-container">
+                        <div class="attachment-buttons">
+                            <button type="button"><i class="fa-solid fa-paperclip"></i> File</button>
+                            <button type="button"><i class="fa-regular fa-image"></i> Image</button>
+                        </div>
+                        <div>
+                            <button class="submit-button">Post</button>
+                        </div>
                     </div>
-                    <div>
-                        <button class="submit-button">Post</button>
-                    </div>
-                </div>
-            </form>
-            <div class="feed-content-container">
-                <div class="post-container">
+                </form>
+            @endauth
+
+            <div class="{{ auth()->check() ? 'feed-content-container' : 'feed-content-container-guest' }}">
+                <div class="{{ auth()->check() ? 'post-container' : '' }}">
                     <div class="user-info-post-container">
                         {{-- User posted --}}
                         <div class="sm-image-container">
@@ -143,8 +147,7 @@
                                 {{-- buttons --}}
                                 <button><i class="fa-regular fa-face-laugh-squint"></i> <span
                                         class="text-sm">Haha</span></button>
-                                <button><i class="fa-regular fa-comment"></i> <span
-                                        class="text-sm">Comment</span></button>
+                                <button><i class="fa-regular fa-comment"></i> <span class="text-sm">Comment</span></button>
                             </div>
                         </div>
                     </div>
@@ -161,23 +164,37 @@
                 </div>
             </div>
         </main>
-        <section class="suggestions-bar">
-            @for ($i = 0; $i < 5; $i++)
-                <div class="follow-user-container">
-                    <div class="follow-user-info">
-                        <div class="sm-image-container">
-                            <img src="https://picsum.photos/42" alt="user-name">
+        @auth
+            <section class="suggestions-bar">
+                @for ($i = 0; $i < 5; $i++)
+                    <div class="follow-user-container">
+                        <div class="follow-user-info">
+                            <div class="sm-image-container">
+                                <img src="https://picsum.photos/42" alt="user-name">
+                            </div>
+                            <div>
+                                <p class="font-bold other-name">Lorem Ipsum</p>
+                                <p class="font-light other-username">@username</p>
+                            </div>
                         </div>
-                        <div>
-                            <p class="font-bold other-name">Lorem Ipsum</p>
-                            <p class="font-light other-username">@username</p>
-                        </div>
+                        <button>Follow</button>
                     </div>
-                    <button>Follow</button>
-                </div>
-            @endfor
+                @endfor
 
-        </section>
+            </section>
+        @else
+            <section class="link-container">
+                <div>
+                    <p>Want to share jokes?</p>
+                    <a href="{{ route('user.sign-in') }}" class="btn-link">Login</a>
+                </div>
+                <div>
+                    <p>Create an account.</p>
+                    <a href="{{ route('user.register.index') }}" class="btn-link">Register</a>
+                </div>
+            </section>
+        @endauth
+
     </div>
 
 @endsection

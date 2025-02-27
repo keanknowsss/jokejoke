@@ -66,7 +66,7 @@
                         <span>OR</span>
                         <div class="line"></div>
                     </div>
-                    <button type="button" id="google-register-button" type="button"><span><img src="{{ asset('assets/icons/google.png') }}" alt="google"></span>
+                    <button type="button" id="google-button" type="button"><span><img src="{{ asset('assets/icons/google.png') }}" alt="google"></span>
                         Continue with Google</button>
                 </div>
 

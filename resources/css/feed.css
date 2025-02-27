@@ -4,6 +4,18 @@
     min-height: 100vh;
 }
 
+.feed-bar {
+    width: 50%;
+    padding: 5rem 1rem;
+}
+
+.suggestions-bar {
+    position: sticky;
+    top: 3rem;
+    right:0;
+    height: fit-content;
+    width: 25%;
+}
 
 .add-post-container {
     width: 100%;
@@ -80,6 +92,11 @@
 
 .feed-content-container {
     padding: 1rem 1rem 1rem 3%;
+}
+.feed-content-container-guest {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
 }
 
 .post-container {
@@ -214,4 +231,23 @@
     height: 100%;
     padding: 10px 25px;
     border-radius: 25px;
+}
+
+
+.link-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 2rem;
+    gap: 2rem;
+    width: 25%;
+    position: sticky;
+    top: 3rem;
+    right:0;
+    height: fit-content;
+}
+
+.btn-link {
+    color: var(--blue-1);
+    text-decoration: underline;
 }

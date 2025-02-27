@@ -8,20 +8,10 @@
     top: 3rem;
     height: fit-content;
 }
-.profile-bar, .suggestions-bar {
+.profile-bar {
     width: 25%;
 }
-.feed-bar {
-    width: 50%;
-    padding: 5rem 1rem;
-}
 
-.suggestions-bar {
-    position: sticky;
-    top: 3rem;
-    right:0;
-    height: fit-content;
-}
 
 .profile-bar-content {
     width: 100%;
