@@ -2,6 +2,7 @@
 
 @push('styles')
     @vite('resources/css/sign-in.css')
+    @vite('resources/css/components/form.css')
 @endpush
 
 @section('title', 'Sign In')
@@ -16,26 +17,20 @@
                 <h1>Sign in</h1>
                 <h2>Welcome! Please enter your credentials to sign in.</h2>
             </div>
-            <form action="" class="sign-in-form">
+            <form action="{{ route('user.sign-in.store') }}" method="post" class="sign-in-form">
                 @csrf
 
                 <div class="sign-in-fields-container">
                     <div class="input-field">
-                        <label for="username">Username</label>
-                        <input type="text" name="username" id="username" placeholder="Enter your Username here" required>
+                        <x-form-label for="username">Username</x-form-label>
+                        <x-form-input type="text" name="username" id="username" placeholder="Enter your Username here" required />
+                        <x-form-error name="username" />
                     </div>
 
                     <div class="input-field">
-                        <label for="password">Password</label>
-                        <div class="password-field">
-                            <input type="password" name="password" id="password" placeholder="Enter your Password">
-                            <button type="button">
-                                <i class="fa-regular fa-eye"></i>
-                            </button>
-                            <button type="button" style="display: none;">
-                                <i class="fa-regular fa-eye-slash"></i>
-                            </button>
-                        </div>
+                        <x-form-label for="password">Password</x-form-label>
+                        <x-form-input type="password" name="password" id="password" placeholder="Enter your Password" />
+                        <x-form-error name="password" />
                     </div>
 
                     <div class="flex items-center justify-between w-full px-2">
@@ -60,7 +55,7 @@
                         Sign up with Google</button>
                 </div>
 
-                <p class="redirect-register-container">Don't have an account? <a href="">Register</a></p>
+                <p class="redirect-register-container">Don't have an account? <a href="{{ route('user.register.index') }}">Register</a></p>
             </form>
         </main>
     </div>

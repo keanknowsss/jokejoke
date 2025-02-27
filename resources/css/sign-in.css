@@ -45,44 +45,6 @@
     width: min(400px, 80%);
 }
 
-.input-field {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.input-field label {
-    color: var(--black-1);
-}
-
-.input-field>input {
-    padding: 18px 1rem;
-}
-
-.input-field input {
-    box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.25);
-    -webkit-box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.25);
-    -moz-box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.25);
-    border-radius: 13px;
-}
-
-.input-field>.password-field {
-    width: 100%;
-    position: relative;
-}
-
-.input-field>.password-field input[type="password"] {
-    padding: 18px 3rem 18px 1rem;
-    width: 100%;
-}
-
-.input-field>.password-field button {
-    position: absolute;
-    right: 18px;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
 .sign-in-fields-container {
     display: flex;
     flex-direction: column;
@@ -130,21 +92,8 @@
     flex: 1;
 }
 
-.sign-in-buttons-container #google-sign-in-button {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    border: .0313rem solid black;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    -webkit-box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    -moz-box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-}
-
 .redirect-register-container {
     text-align: center;
     width: 100%;
     margin-top: 40px;
-}
-.redirect-register-container a {
-    font-weight: bold;
 }

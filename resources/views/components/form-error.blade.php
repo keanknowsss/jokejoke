@@ -1,3 +1,7 @@
+{{--
+    Attributes to add: ['name']
+--}}
+
 @props(['name'])
 
 @error($name)

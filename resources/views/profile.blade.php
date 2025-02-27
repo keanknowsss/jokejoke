@@ -8,51 +8,7 @@
 
 @section('content')
     <div class="profile-page-container">
-        <section class="profile-bar">
-            <div class="profile-bar-content">
-                <div class="user-info-container">
-                    <div class="sidebar-img">
-                        <img src="https://picsum.photos/106" height="106" alt="user-profile">
-                    </div>
-                    <div>
-                        <p class="font-bold text-center">John Doe</p>
-                        <p class="font-light text-center text-sm">@john_doe</p>
-                    </div>
-                </div>
-                <ul class="sidebar-navlinks">
-                    <div>
-                        <li>
-                            <a href="#">
-                                <p><i class="fa-solid fa-house"></i> Home</p>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <p><i class="fa-solid fa-user"></i> Profile</p>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <p><i class="fa-solid fa-bell"></i> Notification</p>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <p><i class="fa-solid fa-gear"></i> Settings</p>
-                            </a>
-                        </li>
-                    </div>
-                    <div>
-                        <li>
-                            <a href="#">
-                                <p><i class="fa-solid fa-arrow-right-from-bracket"></i> Log out</p>
-                            </a>
-                        </li>
-                    </div>
-                </ul>
-            </div>
-
-        </section>
+        <livewire:sidebar />
 
         <section class="profile-content">
             <div class="profile-header-container">

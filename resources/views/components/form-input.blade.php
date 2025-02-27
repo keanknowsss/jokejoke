@@ -1,3 +1,7 @@
+{{--
+    Attributes to add: HTML input attributes
+--}}
+
 @props(['name', 'type' => 'text'])
 
 @php

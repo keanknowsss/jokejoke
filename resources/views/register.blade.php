@@ -2,6 +2,7 @@
 
 @push('styles')
     @vite('resources/css/register.css')
+    @vite('resources/css/components/form.css')
 @endpush
 
 @section('title', 'Create an Account')
@@ -52,7 +53,7 @@
 
 
                     <div class="input-field">
-                        <label for="password">Password</label>
+                        <x-form-label for="password">Password</x-form-label>
                         <x-form-input type="password" name="password" id="password" placeholder="Enter your Password" />
                         <x-form-error name="password" />
                     </div>
@@ -69,7 +70,7 @@
                         Continue with Google</button>
                 </div>
 
-                <p class="redirect-register-container">Already have an account? <a href="">Sign in</a></p>
+                <p class="redirect-register-container">Already have an account? <a href="{{ route('user.sign-in') }}">Sign in</a></p>
             </form>
         </main>
     </div>
