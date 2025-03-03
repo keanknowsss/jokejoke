@@ -9,9 +9,9 @@
 
 @section('content')
     <div class="sign-in-page-container">
-        <div class="highlights-container">
-            <img src="https://picsum.photos/900/900" alt="features">
-        </div>
+
+        <x-carousel-auth />
+
         <main class="sign-in-content">
             <div>
                 <h1>Sign in</h1>

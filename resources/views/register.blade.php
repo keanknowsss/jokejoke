@@ -3,15 +3,16 @@
 @push('styles')
     @vite('resources/css/register.css')
     @vite('resources/css/components/form.css')
+    @vite('resources/css/auth_carousel.css')
 @endpush
 
 @section('title', 'Create an Account')
 
 @section('content')
     <div class="register-page-container">
-        <div class="highlights-container">
-            <img src="https://picsum.photos/900/900" alt="features">
-        </div>
+
+        <x-carousel-auth />
+
         <main class="register-content">
             <div>
                 <h1>Create an Account</h1>
@@ -25,7 +26,8 @@
                     <div class="name-input-container">
                         <div class="input-field">
                             <x-form-label for="first-name">First Name</x-form-label>
-                            <x-form-input type="text" name="first_name" id="first-name" placeholder="e.g. John" required />
+                            <x-form-input type="text" name="first_name" id="first-name" placeholder="e.g. John"
+                                required />
                             <x-form-error name="first_name" />
                         </div>
 
@@ -40,14 +42,16 @@
 
                     <div class="input-field">
                         <x-form-label for="email">Email Address</x-form-label>
-                        <x-form-input type="email" name="email" id="email" placeholder="Enter your Email Address here" required />
+                        <x-form-input type="email" name="email" id="email"
+                            placeholder="Enter your Email Address here" required />
                         <x-form-error name="email" />
                     </div>
 
 
                     <div class="input-field">
                         <x-form-label for="username">Username</x-form-label>
-                        <x-form-input type="text" name="username" id="username" placeholder="Enter your Username here" required />
+                        <x-form-input type="text" name="username" id="username" placeholder="Enter your Username here"
+                            required />
                         <x-form-error name="username" />
                     </div>
 
@@ -66,12 +70,18 @@
                         <span>OR</span>
                         <div class="line"></div>
                     </div>
-                    <button type="button" id="google-button" type="button"><span><img src="{{ asset('assets/icons/google.png') }}" alt="google"></span>
+                    <button type="button" id="google-button" type="button"><span><img
+                                src="{{ asset('assets/icons/google.png') }}" alt="google"></span>
                         Continue with Google</button>
                 </div>
 
-                <p class="redirect-register-container">Already have an account? <a href="{{ route('user.sign-in') }}">Sign in</a></p>
+                <p class="redirect-register-container">Already have an account? <a href="{{ route('user.sign-in') }}">Sign
+                        in</a></p>
             </form>
         </main>
     </div>
+
+    @push('scripts')
+        @vite('resources/js/auth_carousel.js')
+    @endpush
 @endsection
