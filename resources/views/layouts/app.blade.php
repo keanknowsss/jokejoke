@@ -14,6 +14,12 @@
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <link rel="shortcut icon" href="{{ asset('assets/favicons/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('assets/favicons/favicon-16x16.png') }}" sizes="16x16" type="image/png">
+    <link rel="icon" href="{{ asset('assets/favicons/favicon-32x32.png') }}" sizes="32x32" type="image/png">
+    <link rel="icon" href="{{ asset('assets/favicons/android-chrome-192x192.png') }}" sizes="192x192" type="image/png">
+    <link rel="icon" href="{{ asset('assets/favicons/android-chrome-512x512.png') }}" sizes="512x512" type="image/png">
+
     @livewireStyles()
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
