@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FeedController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
 
 use Illuminate\Support\Facades\Artisan;
@@ -15,16 +16,24 @@ Route::fallback(function () {
 });
 
 Route::middleware(['guest'])->group(function () {
-    Route::get('/sign-in', [AuthController::class, 'create'])->name('user.sign-in');
-    Route::post('/sign-in', [AuthController::class, 'store'])->name('user.sign-in.store');
+    Route::get('/sign-in', [AuthController::class, 'create'])
+        ->name('user.sign-in');
+    Route::post('/sign-in', [AuthController::class, 'store'])
+        ->name('user.sign-in.store');
 
-    Route::get('/register', [RegisterController::class, 'create'])->name('user.register.index');
-    Route::post('/register', [RegisterController::class, 'store'])->name('user.register.store');
+    Route::get('/register', [RegisterController::class, 'create'])
+        ->name('user.register.index');
+    Route::post('/register', [RegisterController::class, 'store'])
+        ->name('user.register.store');
 });
 
-Route::middleware(['auth'])->group(function() {
+Route::middleware(['auth'])->group(function () {
     Route::view('/profile', 'profile')->name('profile');
-    Route::post('/logout', [AuthController::class, 'destroy'])->name('user.logout');
+    Route::post('/logout', [AuthController::class, 'destroy'])
+        ->name('user.logout');
+
+    Route::post('/post/store', [PostController::class, 'store'])
+        ->name('post.store');
 });
 
 

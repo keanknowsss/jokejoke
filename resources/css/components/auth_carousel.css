@@ -7,3 +7,15 @@
 .swiper-pagination-bullet-active {
     background: var(--blue-1) !important;
 }
+
+.highlights-container {
+    height: calc(100vh - 2.4rem);
+    width: 42vw;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.highlights-container img {
+    height: 100%;
+    width: 100%;
+}
