@@ -46,6 +46,7 @@
     background: none;
     overflow: hidden;
     min-height: 70px;
+    padding-top: 6px;
 }
 .post-input-container textarea:hover, .post-input-container textarea:focus, .post-input-container textarea:active {
     border: none;
@@ -88,19 +89,14 @@
 }
 
 
-
+.feed-content-container-padding {
+    padding: 2em 1rem 1rem 3%;
+}
 
 .feed-content-container {
-    padding: 1rem 1rem 1rem 3%;
-}
-.feed-content-container-guest {
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
-}
-
-.post-container {
-    margin-block: 1.2rem 2.5rem;
+    gap: 2rem;
 }
 
 .user-info-post-container {
