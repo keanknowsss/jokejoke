@@ -27,6 +27,7 @@
                 "Sure, go!",
                 "No",
                 () => {
+                    Notiflix.Loading.standard("Saving Post. Please wait...");
                     postForm.requestSubmit();
                 },
                 () => null, {}
@@ -35,7 +36,8 @@
 
         window.addEventListener("postSaved", (event) => {
             const { status, message } = event.detail[0];
-            console.log(event)
+
+            Notiflix.Loading.remove();
             if (status === "success") {
                 Notiflix.Notify.success(message, {
                     position: "right-bottom"
