@@ -19,7 +19,7 @@ class Post extends Model
     ];
 
     protected $casts = [
-        'beneficiary_ids' => 'array'
+        'attachments' => 'array'
     ];
 
     public function user() {

@@ -1,14 +1,16 @@
-<form class="add-post-container"  id="add-post-container" wire:submit.prevent="savePost">
+<form class="add-post-container" id="add-post-container" wire:submit.prevent="savePost">
     <div class="post-input-container">
         <div>
             <div class="xs-image-container"><img src="https://picsum.photos/32" alt="user-post"></div>
         </div>
-        <textarea name="content" id="content" value="{{ old('content') }}" placeholder="Make us laugh..." rows="3" wire:model="content"></textarea>
+        <textarea name="post_content" id="post-content" value="{{ old('post_content') }}" placeholder="Make us laugh..." rows="3"
+            wire:model="post_content"></textarea>
     </div>
     <div class="post-buttons-container">
         <div class="attachment-buttons">
             <button type="button"><i class="fa-solid fa-paperclip"></i> File</button>
-            <button type="button"><i class="fa-regular fa-image"></i> Image</button>
+            <button type="button" @click="$refs.fileInput.click()"><i class="fa-regular fa-image"></i> Image</button>
+            <input type="file" wire:model="images" accept="image/jpg, image/png" x-ref="fileInput" hidden>
         </div>
         <div>
             <button class="submit-button" type="button" @click="handlePostSubmit()">Post</button>
@@ -35,7 +37,10 @@
         }
 
         window.addEventListener("postSaved", (event) => {
-            const { status, message } = event.detail[0];
+            const {
+                status,
+                message
+            } = event.detail[0];
 
             Notiflix.Loading.remove();
             if (status === "success") {
@@ -43,9 +48,26 @@
                     position: "right-bottom"
                 });
             } else if (status === "error") {
-                Notiflix.Notify.failure(message, {
-                    position: "right-bottom"
-                });
+                const {
+                    type
+                } = event.detail[0];
+
+                if (type === 'validation') {
+                    Object.values(message).forEach(errors => {
+                        errors.forEach(error => {
+                            Notiflix.Notify.failure(error, {
+                                clickToClose: true,
+                                position: "right-bottom",
+                                timeout: 300000
+                            });
+                        })
+                    });
+                } else {
+                    Notiflix.Notify.failure(message, {
+                        position: "right-bottom"
+                    });
+                }
+
             }
         });
     </script>
