@@ -1,19 +1,43 @@
-<form class="add-post-container" id="add-post-container" wire:submit.prevent="savePost">
-    <div class="post-input-container">
-        <div>
-            <div class="xs-image-container"><img src="https://picsum.photos/32" alt="user-post"></div>
+<form class="add-post-container" id="add-post-container" wire:submit.prevent="savePost" x-data="{ imageCount: 0 }">
+    <div>
+        <div class="post-input-container">
+            <div>
+                <div class="xs-image-container"><img src="https://picsum.photos/32" alt="user-post"></div>
+            </div>
+            <textarea name="post_content" id="post-content" value="{{ old('post_content') }}" placeholder="Make us laugh..."
+                rows="3" wire:model="post_content"></textarea>
+
         </div>
-        <textarea name="post_content" id="post-content" value="{{ old('post_content') }}" placeholder="Make us laugh..." rows="3"
-            wire:model="post_content"></textarea>
+
+        {{-- Preview --}}
+        <div wire:loading wire:target="images" class="w-full border-b p-4 border-black">
+            <div class="flex gap-3">
+                <template x-for="i in imageCount" :key="i">
+                    <div class="flex justify-center items-center w-28 h-28 rounded-lg bg-gray-500">
+                        <x-loader />
+                    </div>
+                </template>
+            </div>
+        </div>
+        @if (!empty($images) && !$errors->has('images'))
+            <div class="flex border-b border-black gap-3 p-4" wire:loading.remove wire:target="images">
+                @foreach ($images as $image)
+                    <div class="flex justify-center items-center w-28 h-28 rounded-lg overflow-hidden shadow border">
+                        <img src="{{ $image->temporaryUrl() }}" class="w-full h-full" alt="preview">
+                    </div>
+                @endforeach
+            </div>
+        @endif
     </div>
     <div class="post-buttons-container">
         <div class="attachment-buttons">
             <button type="button"><i class="fa-solid fa-paperclip"></i> File</button>
-            <button type="button" @click="$refs.fileInput.click()"><i class="fa-regular fa-image"></i> Image</button>
-            <input type="file" wire:model="images" accept="image/jpg, image/png" x-ref="fileInput" hidden>
+            <button type="button" @click="$refs.imageInput.click()"><i class="fa-regular fa-image"></i> Image</button>
+            <input type="file" @change="imageCount = $refs.imageInput.files.length" x-ref="imageInput"
+                wire:model="images" accept="image/jpg, image/png" hidden multiple>
         </div>
         <div>
-            <button class="submit-button" type="button" @click="handlePostSubmit()">Post</button>
+            <button class="submit-button" type="button" @click="handlePostSubmit()" wire:loading.attr='disabled' wire:target='images'>Post</button>
         </div>
     </div>
 </form>
@@ -58,7 +82,7 @@
                             Notiflix.Notify.failure(error, {
                                 clickToClose: true,
                                 position: "right-bottom",
-                                timeout: 300000
+                                closeButton: true
                             });
                         })
                     });

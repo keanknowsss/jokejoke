@@ -15,13 +15,35 @@ class PostForm extends Component
     #[Rule((['required', 'string']))]
     public string $post_content;
 
-    #[Rule(['nullable', 'sometimes', 'image', 'max: 5120', 'mimes:jpg,png'])]
-    public $images;
+    #[Rule(['nullable', 'array'])]
+    public array $images = [];
 
-    public function updatedImages() {
+    public function rules()
+    {
+        return [
+            'images' => ['nullable', 'array'],
+            'images.*' => ['image', 'max:5124', 'mimes:jpg,png'], // Validate each image
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'images.*.image' => 'Each image must be a valid image file.',
+            'images.*.max' => 'Each image must not be greater than 1024 KB.',
+            'images.*.mimes' => 'Each image must be a JPG or PNG file.',
+        ];
+    }
+
+    public function updatedImages()
+    {
         try {
-            $this->validateOnly('images');
+            foreach ($this->images as $index => $image) {
+                $this->validateOnly("images.$index"); // Validate each image individually
+            }
+            $this->dispatch('imagesValidated');
         } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->reset('images');
             $this->dispatch('postSaved', [
                 'status' => 'error',
                 'type' => 'validation',
@@ -30,13 +52,17 @@ class PostForm extends Component
         }
     }
 
-    public function savePost() {
+    public function savePost()
+    {
 
         try {
             $this->validate();
 
+            $attachments = [];
             if ($this->images) {
-                $image_path = $this->images->store('uploads/posts', 'public');
+                foreach ($this->images as $image) {
+                    $attachments[] = $image->store('uploads/posts', 'public');
+                }
             }
 
             DB::beginTransaction();
@@ -44,9 +70,8 @@ class PostForm extends Component
             Post::create([
                 'user_id' => auth()->user()->id,
                 'content' => $this->post_content,
-                'attachments' => [$image_path]
+                'attachments' => $attachments
             ]);
-
             DB::commit();
 
             $this->dispatch('postSaved', [
@@ -62,7 +87,6 @@ class PostForm extends Component
             ]);
         } catch (\Throwable $th) {
             DB::rollBack();
-dd($th);
             $this->dispatch('postSaved', [
                 'status' => 'error',
                 'type' => 'error',

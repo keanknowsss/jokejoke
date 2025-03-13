@@ -87,6 +87,10 @@
 .submit-button:hover {
     opacity: 1;
 }
+.submit-button:disabled {
+    filter: opacity(0.5);
+    cursor: no-drop;
+}
 
 
 .feed-content-container-padding {
