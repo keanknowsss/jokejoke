@@ -31,10 +31,12 @@
     </div>
     <div class="post-buttons-container">
         <div class="attachment-buttons">
-            <button type="button"><i class="fa-solid fa-paperclip"></i> File</button>
             <button type="button" @click="$refs.imageInput.click()"><i class="fa-regular fa-image"></i> Image</button>
             <input type="file" @change="imageCount = $refs.imageInput.files.length" x-ref="imageInput"
                 wire:model="images" accept="image/jpg, image/png" hidden multiple>
+            <button type="button" @click="$refs.fileInput.click()"><i class="fa-solid fa-paperclip"></i> File</button>
+            <input type="file" x-ref="fileInput" wire:model="file" accept="pdf, .doc,.docx" hidden>
+
         </div>
         <div>
             <button class="submit-button" type="button" @click="handlePostSubmit()" wire:loading.attr='disabled' wire:target='images'>Post</button>

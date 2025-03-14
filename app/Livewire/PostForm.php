@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Attachment;
 use App\Models\Post;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Rule;
@@ -14,6 +15,9 @@ class PostForm extends Component
 
     #[Rule((['required', 'string']))]
     public string $post_content;
+
+    #[Rule(['nullable', 'sometimes', 'max: 5124'])]
+    public $file;
 
     #[Rule(['nullable', 'array'])]
     public array $images = [];
@@ -58,20 +62,33 @@ class PostForm extends Component
         try {
             $this->validate();
 
-            $attachments = [];
-            if ($this->images) {
+            DB::beginTransaction();
+
+            $post = Post::create([
+                'user_id' => auth()->user()->id,
+                'content' => $this->post_content
+            ]);
+
+            if (!empty($this->images)) {
                 foreach ($this->images as $image) {
-                    $attachments[] = $image->store('uploads/posts', 'public');
+                    Attachment::create([
+                        'attachable_id' => $post->id,
+                        'attachable_type' => 'post',
+                        'path' => $image->store('uploads/posts', 'public'),
+                        'file_type' => 'image'
+                    ]);
                 }
             }
 
-            DB::beginTransaction();
+            if ($this->file) {
+                Attachment::create([
+                    'attachable_id' => $post->id,
+                    'attachable_type' => 'post',
+                    'path' => $this->file->store('uploads/posts', 'public'),
+                    'file_type' => 'file'
+                ]);
+            }
 
-            Post::create([
-                'user_id' => auth()->user()->id,
-                'content' => $this->post_content,
-                'attachments' => $attachments
-            ]);
             DB::commit();
 
             $this->dispatch('postSaved', [
@@ -86,6 +103,7 @@ class PostForm extends Component
                 'message' => $e->validator->errors()->toArray()
             ]);
         } catch (\Throwable $th) {
+            dd($th);
             DB::rollBack();
             $this->dispatch('postSaved', [
                 'status' => 'error',

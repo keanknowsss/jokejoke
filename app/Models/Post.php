@@ -12,7 +12,6 @@ class Post extends Model
     protected $fillable = [
         'user_id',
         'content',
-        'attachments',
         'like_count',
         'comment_count',
         'share_count'
@@ -21,6 +20,10 @@ class Post extends Model
     protected $casts = [
         'attachments' => 'array'
     ];
+
+    public function attachments() {
+        return $this->morphMany(Attachment::class, 'attachable');
+    }
 
     public function user() {
         return $this->belongsTo(User::class, 'user_id', 'id');
