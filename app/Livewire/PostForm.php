@@ -103,7 +103,6 @@ class PostForm extends Component
                 'message' => $e->validator->errors()->toArray()
             ]);
         } catch (\Throwable $th) {
-            dd($th);
             DB::rollBack();
             $this->dispatch('postSaved', [
                 'status' => 'error',

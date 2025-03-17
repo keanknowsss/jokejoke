@@ -1,4 +1,4 @@
-<form class="add-post-container" id="add-post-container" wire:submit.prevent="savePost" x-data="{ imageCount: 0 }">
+<form class="add-post-container" id="add-post-container" wire:submit.prevent="savePost" x-data="postForm()">
     <div>
         <div class="post-input-container">
             <div>
@@ -9,7 +9,7 @@
 
         </div>
 
-        {{-- Preview --}}
+        {{-- Image --}}
         <div wire:loading wire:target="images" class="w-full border-b p-4 border-black">
             <div class="flex gap-3">
                 <template x-for="i in imageCount" :key="i">
@@ -28,6 +28,19 @@
                 @endforeach
             </div>
         @endif
+
+        {{-- File --}}
+        <div class="post-file-preview-container shadow" x-show="showFile">
+            <div class="attachment-content">
+                <div>
+                    <p class="font-bold" x-text="fileName"></p>
+                    <p class="text-xs" x-text="fileSize"></p>
+                </div>
+                <div>
+                    {{-- insert view or download button here --}}
+                </div>
+            </div>
+        </div>
     </div>
     <div class="post-buttons-container">
         <div class="attachment-buttons">
@@ -35,11 +48,12 @@
             <input type="file" @change="imageCount = $refs.imageInput.files.length" x-ref="imageInput"
                 wire:model="images" accept="image/jpg, image/png" hidden multiple>
             <button type="button" @click="$refs.fileInput.click()"><i class="fa-solid fa-paperclip"></i> File</button>
-            <input type="file" x-ref="fileInput" wire:model="file" accept="pdf, .doc,.docx" hidden>
-
+            <input type="file" x-ref="fileInput" wire:model="file" @change="handleFile(event)"
+                accept="pdf, .doc,.docx" hidden>
         </div>
         <div>
-            <button class="submit-button" type="button" @click="handlePostSubmit()" wire:loading.attr='disabled' wire:target='images'>Post</button>
+            <button class="submit-button" type="button" @click="handlePostSubmit()" wire:loading.attr='disabled'
+                wire:target='images'>Post</button>
         </div>
     </div>
 </form>
@@ -62,6 +76,50 @@
             );
         }
 
+        document.addEventListener("alpine:init", () => {
+            Alpine.data("postForm", () => ({
+                imageCount: 0,
+                showFile: false,
+                fileName: '',
+                fileURL: '',
+                fileSize: '',
+
+                handleFile(event) {
+
+                    const file = event.target.files[0];
+
+                    if (file) {
+                        this.showFile = true;
+                        this.fileName = file.name;
+                        this.fileURL = URL.createObjectURL(file);
+
+                        // defaults to MB
+                        let size = (file.size / (1024 * 1024)).toFixed(2);
+
+                        // converts to KB if smol
+                        if (size < 1) {
+                            size *= 1024;
+                            this.fileSize = `${size} MB`;
+                        } else {
+                            this.fileSize = `${size} KB`;
+                        }
+
+                    }
+                },
+                resetForm() {
+                    this.showFile = false;
+                    this.fileName = '';
+                    this.fileURL = '';
+                    this.fileSize = '';
+                },
+
+                init() {
+                    // Store Alpine reference globally
+                    window.postFormComponent = this;
+                }
+            }));
+        });
+
         window.addEventListener("postSaved", (event) => {
             const {
                 status,
@@ -69,6 +127,12 @@
             } = event.detail[0];
 
             Notiflix.Loading.remove();
+
+            // reset alpine variables
+            if (window.postFormComponent) {
+                window.postFormComponent.resetForm();
+            }
+
             if (status === "success") {
                 Notiflix.Notify.success(message, {
                     position: "right-bottom"

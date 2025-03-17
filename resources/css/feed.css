@@ -75,6 +75,20 @@
 .post-buttons-container button:hover {
     opacity: 1;
 }
+.post-file-preview-container {
+    padding: 1rem;
+    font-size:  14px;
+    border-bottom: 1px solid black;
+}
+.post-file-preview-container .attachment-content {
+    width: 100%;
+    padding: 0.5rem 0.8rem;
+    display: flex;
+    justify-content: space-between;
+    border: 3px solid black;
+    border-radius: 8px;
+}
+
 
 .submit-button {
     padding: 5px 3rem;
