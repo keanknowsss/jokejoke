@@ -13,7 +13,7 @@
         <div wire:loading wire:target="images" class="w-full border-b p-4 border-black">
             <div class="flex gap-3">
                 <template x-for="i in imageCount" :key="i">
-                    <div class="flex justify-center items-center w-28 h-28 rounded-lg bg-gray-500">
+                    <div class="flex justify-center items-center w-36 h-40 rounded-lg bg-gray-500">
                         <x-loader />
                     </div>
                 </template>
@@ -21,9 +21,15 @@
         </div>
         @if (!empty($images) && !$errors->has('images'))
             <div class="flex border-b border-black gap-3 p-4" wire:loading.remove wire:target="images">
-                @foreach ($images as $image)
-                    <div class="flex justify-center items-center w-28 h-28 rounded-lg overflow-hidden shadow border">
-                        <img src="{{ $image->temporaryUrl() }}" class="w-full h-full" alt="preview">
+                @foreach ($images as $index => $image)
+                    <div
+                        class="flex justify-center items-center w-36 h-40 rounded-lg overflow-hidden shadow border relative">
+                        <img src="{{ $image->temporaryUrl() }}" class="w-full h-full object-cover" alt="preview">
+                        <button type="button"
+                            class="shadow absolute top-1 right-1 h-8 w-8 text-sm rounded-full bg-gray-400 brightness-90 hover:brightness-100 transition-all duration-100"
+                            wire:click="removeImage({{ $index }})">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
                     </div>
                 @endforeach
             </div>
@@ -38,6 +44,11 @@
                 </div>
                 <div>
                     {{-- insert view or download button here --}}
+                    <button type="button"
+                        class="w-10 h-10 bg-red-500 brightness-90 hover:brightness-100 rounded text-gray-100"
+                        wire:click="resetFile()" @click="resetFile()">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -106,7 +117,7 @@
 
                     }
                 },
-                resetForm() {
+                resetFile() {
                     this.showFile = false;
                     this.fileName = '';
                     this.fileURL = '';
@@ -130,7 +141,7 @@
 
             // reset alpine variables
             if (window.postFormComponent) {
-                window.postFormComponent.resetForm();
+                window.postFormComponent.resetFile();
             }
 
             if (status === "success") {

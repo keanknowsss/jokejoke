@@ -56,6 +56,17 @@ class PostForm extends Component
         }
     }
 
+    public function removeImage($index) {
+        if ($this->images[$index]) {
+            unset($this->images[$index]);
+            $this->images = array_values($this->images);
+        }
+    }
+
+    public function resetFile() {
+        $this->reset('file');
+    }
+
     public function savePost()
     {
 
