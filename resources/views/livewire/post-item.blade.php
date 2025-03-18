@@ -6,7 +6,7 @@
         </div>
         <div class="flex flex-col align-items-center justify-center">
             <p class="font-bold post-name">{{ ucwords($post->user->first_name . ' ' . $post->user->last_name) }}</p>
-            <p class="font-light post-time">2 hours ago</p>
+            <p class="font-light post-time">{{ $time_posted }}</p>
         </div>
     </div>
     <p class="text-sm mb-3">
@@ -15,8 +15,7 @@
     </p>
     <div class="other-post-buttons-container">
         {{-- buttons --}}
-        <button><i class="fa-regular fa-face-laugh-squint"></i> <span
-                class="text-sm">Haha</span></button>
+        <button><i class="fa-regular fa-face-laugh-squint"></i> <span class="text-sm">Haha</span></button>
         <button><i class="fa-regular fa-comment"></i> <span class="text-sm">Comment</span></button>
         <button><i class="fa-solid fa-share"></i> <span class="text-sm">Share</span></button>
     </div>
