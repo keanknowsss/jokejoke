@@ -13,6 +13,29 @@
         {{-- content --}}
         {{ $post->content }}
     </p>
+    @if ($image->exists())
+        {{-- <div class="post-attachment-container">
+
+        </div> --}}
+    @endif
+    @if ($file)
+        <div class="post-attachment-container">
+            <div class="attachment-content">
+                <div>
+                    <p class="font-bold">{{ $file->title() }}</p>
+                    <p class="text-xs">{{ $file->size() }}</p>
+                </div>
+                <div>
+                    {{-- insert view --}}
+                    <button type="button" wire:click="downloadFile({{ $file->id }})"
+                        class="w-10 h-10 bg-blue-500 brightness-90 hover:brightness-100 rounded text-white">
+                        <i class="fa-solid fa-file-arrow-down"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    @endif
     <div class="other-post-buttons-container">
         {{-- buttons --}}
         <button><i class="fa-regular fa-face-laugh-squint"></i> <span class="text-sm">Haha</span></button>

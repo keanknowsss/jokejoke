@@ -60,7 +60,7 @@
                 wire:model="images" accept="image/jpg, image/png" hidden multiple>
             <button type="button" @click="$refs.fileInput.click()"><i class="fa-solid fa-paperclip"></i> File</button>
             <input type="file" x-ref="fileInput" wire:model="file" @change="handleFile(event)"
-                accept="pdf, .doc,.docx" hidden>
+                accept=".pdf, .doc, .docx" hidden>
         </div>
         <div>
             <button class="submit-button" type="button" @click="handlePostSubmit()" wire:loading.attr='disabled'
@@ -110,9 +110,9 @@
                         // converts to KB if smol
                         if (size < 1) {
                             size *= 1024;
-                            this.fileSize = `${size} MB`;
-                        } else {
                             this.fileSize = `${size} KB`;
+                        } else {
+                            this.fileSize = `${size} MB`;
                         }
 
                     }

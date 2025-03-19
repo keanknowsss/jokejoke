@@ -80,15 +80,6 @@
     font-size:  14px;
     border-bottom: 1px solid black;
 }
-.post-file-preview-container .attachment-content {
-    width: 100%;
-    padding: 0.5rem 0.8rem;
-    display: flex;
-    justify-content: space-between;
-    border: 3px solid black;
-    border-radius: 8px;
-}
-
 
 .submit-button {
     padding: 5px 3rem;
@@ -202,14 +193,13 @@
     margin-top: 7px
 }
 
-.post-attachment-container .attachment-content {
+.attachment-content {
     width: 100%;
-    padding: 1rem;
+    padding: 0.5rem 0.8rem;
     display: flex;
     justify-content: space-between;
-    border: 5px solid black;
-    border-radius: 10px;
-    font-weight: bold;
+    border: 3px solid black;
+    border-radius: 8px;
 }
 
 

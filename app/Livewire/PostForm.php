@@ -85,7 +85,7 @@ class PostForm extends Component
                     Attachment::create([
                         'attachable_id' => $post->id,
                         'attachable_type' => 'post',
-                        'path' => $image->store('uploads/posts', 'public'),
+                        'path' => $image->store("uploads/posts/{$post->id}", 'public'),
                         'file_type' => 'image'
                     ]);
                 }
@@ -95,7 +95,7 @@ class PostForm extends Component
                 Attachment::create([
                     'attachable_id' => $post->id,
                     'attachable_type' => 'post',
-                    'path' => $this->file->store('uploads/posts', 'public'),
+                    'path' => $this->file->storeAs("uploads/posts/{$post->id}", $this->file->getClientOriginalName(),'public'),
                     'file_type' => 'file'
                 ]);
             }

@@ -4,18 +4,6 @@
     display: flex;
 }
 
-.highlights-container {
-    height: calc(100vh - 2.4rem);
-    width: 45vw;
-    overflow: hidden;
-    border-radius: 8px;
-}
-
-.highlights-container img {
-    height: 100%;
-    width: 100%;
-}
-
 .sign-in-content {
     display: flex;
     flex-direction: column;
