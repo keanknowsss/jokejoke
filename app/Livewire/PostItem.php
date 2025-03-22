@@ -51,7 +51,7 @@ class PostItem extends Component
         return view('livewire.post-item', [
             'time_posted' => $time_difference_text,
             'file' => $this->post->attachments()->where('file_type', 'file')->first(),
-            'image' => $this->post->attachments()->where('file_type', 'image')
+            'images' => $this->post->attachments()->where('file_type', 'image')->get()
         ]);
     }
 }

@@ -13,10 +13,34 @@
         {{-- content --}}
         {{ $post->content }}
     </p>
-    @if ($image->exists())
-        {{-- <div class="post-attachment-container">
+    @if ($images->isNotEmpty())
+        @if ($images->count() === 1)
+            <div class="images-max-height post-image shadow-lg">
+                <img src="{{ asset('storage/' . $images->first()->path) }}" alt="image-{{ $post->id }}">
+            </div>
+        @elseif($images->count() === 2)
+            <div class="post-images-container-2 images-max-height">
+                @foreach ($images as $index => $image)
+                    <div class="shadow-lg post-image">
+                        <img src="{{ asset('storage/' . $image->path) }}"
+                            alt="image-{{ $post->id }}-{{ $index }}">
+                    </div>
+                @endforeach
+            </div>
+        @else
+            <div class="post-images-container-3 images-max-height">
+                @foreach ($images->take(3) as $index => $image)
+                    <div class="shadow-lg post-image {{ $index === 0 ? 'first-image' : ''}} {{ $index === 2 && $images->count() > 3 ? 'more-image-overlay' : '' }}">
+                        <img src="{{ asset('storage/' . $image->path) }}"
+                            alt="image-{{ $post->id }}-{{ $index }}">
+                        @if($index === 2 && $images->count() > 3)
+                            <p class="more-image-number">+{{ $images->count() - 3 }}</p>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+        @endif
 
-        </div> --}}
     @endif
     @if ($file)
         <div class="post-attachment-container">

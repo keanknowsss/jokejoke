@@ -1,0 +1,200 @@
+.user-info-post-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+.user-info-post-container .post-name {
+    font-size: 14px;
+    font-weight: bold;
+}
+.user-info-post-container .post-time {
+    font-size: 11px;
+    font-weight: light;
+}
+
+.attachment-content {
+    width: 100%;
+    padding: 0.5rem 0.8rem;
+    display: flex;
+    justify-content: space-between;
+    border: 3px solid black;
+    border-radius: 8px;
+}
+
+/* POST FORM */
+.add-post-container {
+    width: 100%;
+    border: 1px solid black;
+    border-radius: 21px;
+}
+.add-post-container .post-input-container {
+    border-bottom: 1px solid black;
+    padding: 12px;
+    display: flex;
+    gap: 10px;
+}
+
+.post-input-container textarea {
+    width: 100%;
+    resize: none;
+    font-size: 14px;
+    background: none;
+    overflow: hidden;
+    min-height: 70px;
+    padding-top: 6px;
+}
+.post-input-container textarea:hover, .post-input-container textarea:focus, .post-input-container textarea:active {
+    border: none;
+    outline: none;
+}
+
+.add-post-container .post-buttons-container {
+    padding: 10px 1rem;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.post-buttons-container .attachment-buttons {
+    display: flex;
+    gap: 1rem;
+}
+.attachment-buttons i {
+    margin-right: 4px;
+}
+.post-buttons-container button {
+    font-size: 14px;
+    font-weight: bold;
+    transition: ease-in 0.15s opacity;
+    opacity: 0.9;
+}
+.post-buttons-container button:hover {
+    opacity: 1;
+}
+.post-file-preview-container {
+    padding: 1rem;
+    font-size:  14px;
+    border-bottom: 1px solid black;
+}
+
+.submit-button {
+    padding: 5px 3rem;
+    background-color: var(--blue-1);
+    border-radius: 21px;
+    border: 1px solid black;
+    opacity: 0.9;
+
+}
+.submit-button:hover {
+    opacity: 1;
+}
+.submit-button:disabled {
+    filter: opacity(0.5);
+    cursor: no-drop;
+}
+
+.other-post-buttons-container {
+    display: flex;
+    gap: 25px;
+    padding: 15px 0 15px 13px;
+    font-weight: bold;
+}
+.other-post-buttons-container button {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.post-comment-container {
+    margin-left: 1rem;
+    /* margin-top: 5px; */
+}
+.post-comment-container .comment-text-container {
+    display: flex;
+    align-items: center;
+    border: var(--black-1) 1px solid;
+    padding: 6px;
+    border-radius: 30px;
+    background-color: var(--white-1);
+}
+.comment-text-container textarea {
+    resize: none;
+    height: 2.2rem;
+    font-size: 15px;
+    margin-inline: 10px 5px;
+    flex: 1;
+    padding-top: 5px;
+    padding-left: 2px;
+    background: none;
+}
+.comment-text-container textarea:focus, .comment-text-container textarea:active {
+    border: none;
+    outline: none;
+}
+.comment-text-container button {
+    background: var(--black-1);
+    border-radius: 100%;
+    color: white;
+    height: 32px;
+    width: 32px;
+}
+
+
+.other-comment-content {
+    display: flex;
+    gap: 12px;
+    font-size: 14px;
+}
+.other-comment-content .other-comment-name {
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+.other-comment-content .other-comment-time {
+    font-size: 10px;
+    font-weight: light;
+    margin-top: 7px
+}
+
+.images-max-height {
+    max-height: 570px;
+}
+.post-image {
+    width: 100%;
+    overflow: hidden;
+    cursor: pointer;
+}
+.post-images-container-2 {
+    height: 570px;;
+    gap: 0.8rem;
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
+}
+
+.post-images-container-3 {
+    height: 570px;
+    gap: 0.8rem;
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
+    grid-template-columns: 70% 30%;
+}
+.post-images-container-3 .first-image {
+    grid-row: 1 / span 2;
+}
+.post-images-container-3 img {
+    object-fit: cover;
+    height: 100%;
+}
+.more-image-overlay > img {
+    filter: brightness(30%);
+}
+.more-image-overlay {
+    position: relative;
+}
+p.more-image-number {
+    color: white;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -40%);
+    font-size: 3rem;
+    font-weight: 800;
+}

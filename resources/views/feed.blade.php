@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @push('styles')
-    @vite('resources/css/feed.css')
+    @vite(['resources/css/feed.css', 'resources/css/components/post.css'])
 @endpush
 
 @section('title', auth()->check() ? 'Joke Feed' : 'Joke! Have a laugh')
