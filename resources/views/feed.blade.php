@@ -7,6 +7,7 @@
 @section('title', auth()->check() ? 'Joke Feed' : 'Joke! Have a laugh')
 
 @section('content')
+
     <div class="feed-container">
         @livewire('sidebar')
         <main class="feed-bar">

@@ -36,7 +36,7 @@
         @endif
 
         {{-- File --}}
-        <div class="post-file-preview-container shadow" x-show="showFile">
+        <div class="post-file-preview-container shadow" x-show="showFile" x-cloak>
             <div class="attachment-content">
                 <div>
                     <p class="font-bold" x-text="fileName"></p>

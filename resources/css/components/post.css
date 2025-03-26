@@ -160,10 +160,9 @@
 .post-image {
     width: 100%;
     overflow: hidden;
-    cursor: pointer;
 }
 .post-images-container-2 {
-    height: 570px;;
+    height: 570px;
     gap: 0.8rem;
     display: grid;
     grid-template-rows: repeat(2, 1fr);
@@ -183,7 +182,7 @@
     object-fit: cover;
     height: 100%;
 }
-.more-image-overlay > img {
+.more-image-overlay > div {
     filter: brightness(30%);
 }
 .more-image-overlay {
