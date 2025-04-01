@@ -20,7 +20,7 @@
     <link rel="icon" href="{{ asset('assets/favicons/android-chrome-192x192.png') }}" sizes="192x192" type="image/png">
     <link rel="icon" href="{{ asset('assets/favicons/android-chrome-512x512.png') }}" sizes="512x512" type="image/png">
 
-    @livewireStyles()
+    @livewireStyles
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -32,7 +32,7 @@
 <body>
     @yield('content')
 
-    @livewireScripts()
+    @livewireScripts
 
     @stack('scripts')
 </body>

@@ -159,6 +159,7 @@
 }
 .post-image {
     width: 100%;
+    cursor: pointer;
     overflow: hidden;
 }
 .post-images-container-2 {
@@ -182,7 +183,7 @@
     object-fit: cover;
     height: 100%;
 }
-.more-image-overlay > div {
+.more-image-overlay img {
     filter: brightness(30%);
 }
 .more-image-overlay {

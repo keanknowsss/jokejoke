@@ -108,15 +108,17 @@
 
 .image-display-container {
     position: fixed;
-    height: 100vh;
     background-color: #000000bb;
-    display: grid;
-    place-items: center;
+    overflow: hidden;
+    z-index: 9999;
     top: 0;
     left: 0;
-    overflow: hidden;
-    z-index: 9999
+    display: grid;
+    place-items: center;
+    height: 100vh;
+    width: 100vw;
 }
+
 
 .image-display-container .image-display {
     max-width: 70%;

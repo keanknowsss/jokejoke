@@ -13,30 +13,37 @@
         {{-- content --}}
         {{ $post->content }}
     </p>
+
     @if ($images->isNotEmpty())
         @if ($images->count() === 1)
             <div class="images-max-height post-image shadow-lg">
-                <x-image src="{{ asset('storage/' . $images->first()->path) }}" alt="image-{{ $post->id }}" />
+                <img src="{{ asset('storage/' . $images->first()->path) }}" alt="image-{{ $post->id }}"
+                    @click="$wire.dispatch('open-image-viewer', {category: 'post', category_id: {{ $post->id }}, id: {{ $images->first()->id }} })" />
             </div>
         @elseif($images->count() === 2)
             <div class="post-images-container-2 images-max-height">
                 @foreach ($images as $index => $image)
                     <div class="shadow-lg post-image">
-                        <x-image src="{{ asset('storage/' . $image->path) }}" alt="image-{{ $post->id }}-{{ $index }}" />
+                        <img src="{{ asset('storage/' . $image->path) }}"
+                            alt="image-{{ $post->id }}-{{ $index }}"
+                            @click="$wire.dispatch('open-image-viewer', {category: 'post', category_id: {{ $post->id }}, id: {{ $image->id }} })" />
                     </div>
                 @endforeach
             </div>
         @else
             <div class="post-images-container-3 images-max-height">
+
                 @foreach ($images->take(3) as $index => $image)
-                    <div class="shadow-lg post-image {{ $index === 0 ? 'first-image' : ''}} {{ $index === 2 && $images->count() > 3 ? 'more-image-overlay' : '' }}">
-                        <x-image src="{{ asset('storage/' . $image->path) }}"
+                    <div class="shadow-lg post-image {{ $index === 0 ? 'first-image' : '' }} {{ $index === 2 && $images->count() > 3 ? 'more-image-overlay' : '' }}"
+                        @click="$wire.dispatch('open-image-viewer', {category: 'post', category_id: {{ $post->id }}, id: {{ $image->id }} })">
+                        <img src="{{ asset('storage/' . $image->path) }}"
                             alt="image-{{ $post->id }}-{{ $index }}" />
-                        @if($index === 2 && $images->count() > 3)
+                        @if ($index === 2 && $images->count() > 3)
                             <p class="more-image-number">+{{ $images->count() - 3 }}</p>
                         @endif
                     </div>
                 @endforeach
+
             </div>
         @endif
 

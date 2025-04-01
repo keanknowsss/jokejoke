@@ -58,6 +58,7 @@
             <button type="button" @click="$refs.imageInput.click()"><i class="fa-regular fa-image"></i> Image</button>
             <input type="file" @change="imageCount = $refs.imageInput.files.length" x-ref="imageInput"
                 wire:model="images" accept="image/jpg, image/png" hidden multiple>
+
             <button type="button" @click="$refs.fileInput.click()"><i class="fa-solid fa-paperclip"></i> File</button>
             <input type="file" x-ref="fileInput" wire:model="file" @change="handleFile(event)"
                 accept=".pdf, .doc, .docx" hidden>
