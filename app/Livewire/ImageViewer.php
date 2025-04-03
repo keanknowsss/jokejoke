@@ -4,12 +4,13 @@ namespace App\Livewire;
 
 use App\Models\Attachment;
 use App\Models\Post;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
 class ImageViewer extends Component
 {
-    public string $category_id = '', $src = '', $id = '';
+    public string $category_id = '', $id = '';
     public array $images = [];
 
 
@@ -22,22 +23,25 @@ class ImageViewer extends Component
      * @return void
      */
     #[On('open-image-viewer')]
-    public function loadImages(string $category, string $category_id, string $id) {
+    public function loadImages(string $category, string $category_id, string $id)
+    {
 
         if ($category === 'post') {
-           $current_image =  Attachment::select('id', 'path')->where('id', $id)->first();
-           $this->src = asset("storage/$current_image->path");
+            $current_image = Attachment::where('id', $id)
+                ->get()
+                ->map(fn($image) => $image->path = Storage::url($image->path))
+                ->first();
 
-           $images = Post::find($category_id)
-            ->attachments()
-            ->select('id', 'path')
-            ->where('file_type', 'image')
-            ->whereNot('id', $id)
-            ->get()->toArray();
+            $images = Post::find($category_id)
+                ->attachments()
+                ->where('file_type', 'image')
+                ->whereNot('id', $id)
+                ->get()
+                ->map(fn($image) => $image->path = Storage::url($image->path))
+                ->toArray();
 
-            array_unshift($images, $current_image->toArray());
+            array_unshift($images, $current_image);
             $this->images = $images;
-
         }
 
         $this->dispatch('image-loaded');

@@ -1,0 +1,49 @@
+.image-display-container {
+    position: fixed;
+    background-color: #000000bb;
+    overflow: hidden;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    display: grid;
+    place-items: center;
+    height: 100vh;
+    width: 100vw;
+}
+
+
+.image-display-container .image-display {
+    max-width: 70%;
+}
+
+#left-image-btn, #right-image-btn, .hide-image-btn {
+    font-size: 2.5rem;
+    opacity: 0.8;
+    transition: opacity 0.05s ease-out;
+    position: absolute;
+}
+
+.hide-image-btn {
+    top: 1rem;
+    right: 2rem;
+    color: #ffffffaa;
+}
+.hide-image-btn:hover, #left-image-btn:hover, #right-image-btn:hover {
+    opacity: 1;
+}
+
+#left-image-btn, #right-image-btn {
+    background: #ffffffaa;
+    padding: 2px 18px;
+    border-radius: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#left-image-btn {
+    left: 2rem;
+}
+
+#right-image-btn {
+    right: 2rem;
+}

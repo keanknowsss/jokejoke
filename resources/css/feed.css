@@ -105,35 +105,3 @@
     color: var(--blue-1);
     text-decoration: underline;
 }
-
-.image-display-container {
-    position: fixed;
-    background-color: #000000bb;
-    overflow: hidden;
-    z-index: 9999;
-    top: 0;
-    left: 0;
-    display: grid;
-    place-items: center;
-    height: 100vh;
-    width: 100vw;
-}
-
-
-.image-display-container .image-display {
-    max-width: 70%;
-}
-
-
-.hide-image-btn {
-    position: absolute;
-    top: 1rem;
-    right: 2rem;
-    font-size: 2.5rem;
-    color: #ffffffaa;
-    opacity: 0.8;
-    transition: opacity 0.05s ease-out;
-}
-.hide-image-btn:hover {
-    opacity: 1;
-}
