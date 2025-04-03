@@ -16,6 +16,10 @@
     max-width: 70%;
 }
 
+.image-display-container .image-display img {
+    max-height: 95vh;
+}
+
 #left-image-btn, #right-image-btn, .hide-image-btn {
     font-size: 2.5rem;
     opacity: 0.8;
