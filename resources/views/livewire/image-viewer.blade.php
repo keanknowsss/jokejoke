@@ -28,8 +28,9 @@
         }
     }"
     tabindex="0"
-    @keydown.left="moveLeft()"
-    @keydown.right="moveRight()"
+    @keydown.left="moveLeft"
+    @keydown.right="moveRight",
+    @keydown.esc="closeViewer",
     @click="closeViewer"
     x-show="open"
     @open-image-viewer.window="openViewer"

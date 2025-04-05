@@ -1,18 +1,93 @@
-<div class="post-container">
-    <div class="user-info-post-container">
-        {{-- User posted --}}
-        <div class="sm-image-container">
-            <img src="https://picsum.photos/42" alt="user-name">
+<div class="post-container"
+    x-data='{
+            editedCaption: @json($post->content),
+            originalCaption: @json($post->content),
+            editMode: false,
+            openOptions: false,
+            handleDelete() {
+                Notiflix.Confirm.show(
+                    "Attention!",
+                    "Are you sure you want to delete this joke? (This action is irreversable)",
+                    "Sure, go!",
+                    "No",
+                    () => {
+                        Notiflix.Loading.standard("Deleting Post. Please wait...");
+                        $wire.destroy();
+                    }
+                );
+            },
+            handleEdit() {
+                if (this.editedCaption !== this.originalCaption) {
+                    Notiflix.Confirm.show(
+                        "Attention!",
+                        "Are you sure you want to update this joke? (This action is irreversable)",
+                        "Sure, go!",
+                        "No",
+                        () => {
+                            this.editMode = false;
+                            Notiflix.Loading.standard("Updating Post. Please wait...");
+                            $wire.update();
+                        }
+                    );
+                } else {
+                    Notiflix.Notify.info("The edited caption is similar to the original caption", { position: "right-bottom", closeButton: true });
+                    this.editMode = false;
+                }
+            }
+        }'>
+    <div class="flex justify-between items-center">
+        <div class="user-info-post-container">
+            {{-- User posted --}}
+            <div class="sm-image-container">
+                <img src="https://picsum.photos/42" alt="user-name">
+            </div>
+            <div class="flex flex-col align-items-center justify-center">
+                <p class="font-bold post-name">{{ ucwords($post->user->first_name . ' ' . $post->user->last_name) }}</p>
+                <p class="font-light post-time">{{ $time_posted }}</p>
+            </div>
         </div>
-        <div class="flex flex-col align-items-center justify-center">
-            <p class="font-bold post-name">{{ ucwords($post->user->first_name . ' ' . $post->user->last_name) }}</p>
-            <p class="font-light post-time">{{ $time_posted }}</p>
-        </div>
+
+        @auth
+            @if ($post->user_id === auth()->user()->id)
+                <div class="post-more-options-container">
+                    <button class="post-more-option" @click="openOptions = !openOptions;" @click.away="openOptions = false"
+                        :class="{ 'post-more-option-active': openOptions }">
+                        <i class="fa-solid fa-ellipsis text-lg"></i>
+                    </button>
+                    <div class="post-more-option-content shadow-lg" x-show="openOptions" x-transition>
+                        <button @click="editMode = true">Edit Text</button>
+                        <button @click="handleDelete">Delete</button>
+                    </div>
+                </div>
+            @endif
+        @endauth
+
     </div>
-    <p class="text-sm mb-3">
-        {{-- content --}}
-        {{ $post->content }}
-    </p>
+
+    <div class="text-sm mb-3">
+        <p x-show="!editMode">
+            {{-- content --}}
+            {{ $text_content }}
+        </p>
+
+        @auth
+            @if ($post->user_id === auth()->user()->id)
+                <form class="post-edit-form shadow-lg" id="update-post-container" wire:submit.prevent x-show="editMode"
+                    x-cloak>
+                    <div class="post-input-edit-container">
+                        <textarea name="edit_content" id="edit_content" wire:model="text_content" placeholder="Enter your post caption here..."
+                            x-model="editedCaption"></textarea>
+                    </div>
+                    <div class="edit-buttons-container">
+                        <button class="submit-btn" type="button" @click="handleEdit">Update</button>
+                        <button class="cancel-btn" @click="editMode = false" type="button">Cancel</button>
+                    </div>
+                </form>
+            @endif
+        @endauth
+
+    </div>
+
 
     @if ($images->isNotEmpty())
         @if ($images->count() === 1)

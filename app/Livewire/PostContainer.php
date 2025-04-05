@@ -14,6 +14,8 @@ class PostContainer extends Component
     public Collection $posts;
 
     #[On('postSaved')]
+    #[On('postDeleted')]
+    #[On('postUpdated')]
     public function refreshPosts() {
         $this->posts = $this->type === 'all' ?
             Post::with('user')->latest()->get() :

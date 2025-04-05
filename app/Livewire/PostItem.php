@@ -5,12 +5,21 @@ namespace App\Livewire;
 use App\Models\Attachment;
 use App\Models\Post;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Livewire\Attributes\Rule;
 use Livewire\Component;
 
 class PostItem extends Component
 {
     public Post $post;
+
+    #[Rule(['required', 'string'])]
+    public string $text_content;
+
+    public function mount(Post $post) {
+        $this->text_content = $post->content;
+    }
 
     public function downloadFile($attachment_id) {
         try {
@@ -25,6 +34,53 @@ class PostItem extends Component
 
         } catch (\Throwable $th) {
             session()->flash('error', 'Error downloading file');
+        }
+    }
+
+    public function destroy() {
+        try {
+            $this->post->delete();
+            $this->dispatch('postDeleted', [
+                'status' => 'success',
+                'message' => 'Post is deleted successfully'
+            ]);
+        } catch (\Throwable $th) {
+            $this->dispatch('postDeleted', [
+                'status' => 'error',
+                'message' => 'Something went wrong. Please try again.'
+            ]);
+        }
+    }
+
+    public function update() {
+        try {
+            $this->validate();
+
+            DB::beginTransaction();
+
+            $this->post->content = $this->text_content;
+            $this->post->save();
+
+            DB::commit();
+
+            $this->dispatch('postUpdated', [
+                'status' => 'success',
+                'message' => 'Post successfully updated'
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // validation error
+            $this->dispatch('postUpdated', [
+                'status' => 'error',
+                'type' => 'validation',
+                'message' => $e->validator->errors()->toArray()
+            ]);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $this->dispatch('postUpdated', [
+                'status' => 'error',
+                'type' => 'error',
+                'message' => 'Something went wrong. Please try again.'
+            ]);
         }
     }
 

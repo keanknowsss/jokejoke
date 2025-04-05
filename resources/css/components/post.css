@@ -3,10 +3,12 @@
     gap: 1rem;
     margin-bottom: 1rem;
 }
+
 .user-info-post-container .post-name {
     font-size: 14px;
     font-weight: bold;
 }
+
 .user-info-post-container .post-time {
     font-size: 11px;
     font-weight: light;
@@ -27,6 +29,7 @@
     border: 1px solid black;
     border-radius: 21px;
 }
+
 .add-post-container .post-input-container {
     border-bottom: 1px solid black;
     padding: 12px;
@@ -43,7 +46,10 @@
     min-height: 70px;
     padding-top: 6px;
 }
-.post-input-container textarea:hover, .post-input-container textarea:focus, .post-input-container textarea:active {
+
+.post-input-container textarea:hover,
+.post-input-container textarea:focus,
+.post-input-container textarea:active {
     border: none;
     outline: none;
 }
@@ -54,25 +60,30 @@
     justify-content: space-between;
     width: 100%;
 }
+
 .post-buttons-container .attachment-buttons {
     display: flex;
     gap: 1rem;
 }
+
 .attachment-buttons i {
     margin-right: 4px;
 }
+
 .post-buttons-container button {
     font-size: 14px;
     font-weight: bold;
     transition: ease-in 0.15s opacity;
     opacity: 0.9;
 }
+
 .post-buttons-container button:hover {
     opacity: 1;
 }
+
 .post-file-preview-container {
     padding: 1rem;
-    font-size:  14px;
+    font-size: 14px;
     border-bottom: 1px solid black;
 }
 
@@ -82,11 +93,12 @@
     border-radius: 21px;
     border: 1px solid black;
     opacity: 0.9;
-
 }
+
 .submit-button:hover {
     opacity: 1;
 }
+
 .submit-button:disabled {
     filter: opacity(0.5);
     cursor: no-drop;
@@ -98,6 +110,7 @@
     padding: 15px 0 15px 13px;
     font-weight: bold;
 }
+
 .other-post-buttons-container button {
     display: flex;
     gap: 10px;
@@ -108,6 +121,7 @@
     margin-left: 1rem;
     /* margin-top: 5px; */
 }
+
 .post-comment-container .comment-text-container {
     display: flex;
     align-items: center;
@@ -116,6 +130,7 @@
     border-radius: 30px;
     background-color: var(--white-1);
 }
+
 .comment-text-container textarea {
     resize: none;
     height: 2.2rem;
@@ -126,10 +141,13 @@
     padding-left: 2px;
     background: none;
 }
-.comment-text-container textarea:focus, .comment-text-container textarea:active {
+
+.comment-text-container textarea:focus,
+.comment-text-container textarea:active {
     border: none;
     outline: none;
 }
+
 .comment-text-container button {
     background: var(--black-1);
     border-radius: 100%;
@@ -144,10 +162,12 @@
     gap: 12px;
     font-size: 14px;
 }
+
 .other-comment-content .other-comment-name {
     font-weight: bold;
     margin-bottom: 4px;
 }
+
 .other-comment-content .other-comment-time {
     font-size: 10px;
     font-weight: light;
@@ -157,11 +177,13 @@
 .images-max-height {
     max-height: 570px;
 }
+
 .post-image {
     width: 100%;
     cursor: pointer;
     overflow: hidden;
 }
+
 .post-images-container-2 {
     height: 570px;
     gap: 0.8rem;
@@ -174,21 +196,26 @@
     gap: 0.8rem;
     display: grid;
     grid-template-rows: repeat(2, 1fr);
-    grid-template-columns: 70% 30%;
+    grid-template-columns: calc(70% - 0.4rem) calc(30% - 0.4rem);
 }
+
 .post-images-container-3 .first-image {
     grid-row: 1 / span 2;
 }
+
 .post-images-container-3 img {
     object-fit: cover;
     height: 100%;
 }
+
 .more-image-overlay img {
     filter: brightness(30%);
 }
+
 .more-image-overlay {
     position: relative;
 }
+
 p.more-image-number {
     color: white;
     position: absolute;
@@ -197,4 +224,116 @@ p.more-image-number {
     transform: translate(-50%, -40%);
     font-size: 3rem;
     font-weight: 800;
+}
+
+.post-more-options-container {
+    position: relative;
+}
+
+.post-more-option {
+    padding-inline: 0.5rem;
+    border-radius: 5px;
+    transition: background 0.1s ease-in;
+
+}
+
+.post-more-option:hover {
+    background: #696C7199;
+}
+
+.post-more-option-content {
+    position: absolute;
+    width: 100px;
+    right: 0;
+    top: 2rem;
+    display: flex;
+    flex-direction: column;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid black;
+}
+
+.post-more-option-content button:nth-child(1) {
+    border-bottom: 1px solid black;
+}
+
+.post-more-option-content button {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 14px;
+    background: var(--white-1);
+    transition: all 0.1s ease-in;
+}
+
+.post-more-option-content button:hover {
+    background-color: var(--gray-1);
+    color: white;
+}
+
+.post-more-option-active {
+    background: #696C7199;
+}
+
+
+.post-edit-form {
+    width: 100%;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+}
+
+.post-edit-form .post-input-edit-container {
+    border-bottom: 1px solid black;
+    padding: 8px 12px;
+    display: flex;
+    gap: 10px;
+}
+
+.post-edit-form textarea {
+    width: 100%;
+    resize: none;
+    font-size: 14px;
+    background: none;
+    overflow: hidden;
+    min-height: 70px;
+    padding-top: 6px;
+}
+
+.post-edit-form textarea:hover,
+.post-edit-form textarea:focus {
+    border: none;
+    outline: none;
+}
+
+.post-edit-form .edit-buttons-container {
+    padding: 10px 1rem;
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+}
+
+.post-edit-form .edit-buttons-container button {
+    font-size: 14px;
+    font-weight: bold;
+    transition: ease-in 0.15s opacity;
+    opacity: 0.9;
+}
+
+.post-edit-form .edit-buttons-container button:hover {
+    opacity: 1;
+}
+
+.post-edit-form .edit-buttons-container .submit-btn {
+    padding: 5px 3rem;
+    background-color: var(--blue-1);
+    border-radius: 21px;
+    border: 1px solid black;
+    opacity: 0.9;
+}
+.post-edit-form .edit-buttons-container .cancel-btn {
+    padding: 5px 1.5rem;
+    background-color: var(--gray-2);
+    border-radius: 21px;
+    border: 1px solid black;
+    opacity: 0.9;
 }
