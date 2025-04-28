@@ -9,7 +9,7 @@ use Livewire\Component;
 
 class PostContainer extends Component
 {
-    public string $type;
+    public ?string $user_id;
 
     public Collection $posts;
 
@@ -17,13 +17,13 @@ class PostContainer extends Component
     #[On('postDeleted')]
     #[On('postUpdated')]
     public function refreshPosts() {
-        $this->posts = $this->type === 'all' ?
-            Post::with('user')->latest()->get() :
-            auth()->user()->posts()->with('user')->latest()->get();
+        $this->posts = $this->user_id ?
+            auth()->user()->posts()->with('user')->latest()->get() :
+            Post::with('user')->latest()->get();
     }
 
-    public function mount(string $type = 'all') {
-        $this->type = $type;
+    public function mount($user_id = null) {
+        $this->user_id = $user_id;
 
         $this->refreshPosts();
     }

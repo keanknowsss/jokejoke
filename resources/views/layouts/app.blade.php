@@ -26,7 +26,7 @@
 
     @stack('styles')
 
-    <title>@yield('title', 'Jokejoke')</title>
+    <title>{{ $title ?? 'Joke! Have a laugh' }}</title>
 </head>
 
 <body>

@@ -35,6 +35,7 @@
     x-show="open"
     @open-image-viewer.window="openViewer"
     @image-loaded.window="loading = false; images = $wire.images;"
+    x-cloak
 >
 
     <button class="hide-image-btn" @click="closeViewer">

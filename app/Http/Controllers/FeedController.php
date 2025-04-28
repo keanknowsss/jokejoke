@@ -14,7 +14,8 @@ class FeedController extends Controller
         $posts = Post::with('user')->latest()->get();
 
         return view('feed', [
-            'posts' => $posts
+            'posts' => $posts,
+            'title' => auth()->check() ? 'Joke Feed' : 'Joke! Have a laugh'
         ]);
     }
 }

@@ -141,14 +141,16 @@
             </div>
         </div>
     @endif
-    <div class="other-post-buttons-container">
-        {{-- buttons --}}
-        <button><i class="fa-regular fa-face-laugh-squint"></i> <span class="text-sm">Haha</span></button>
-        <button><i class="fa-regular fa-comment"></i> <span class="text-sm">Comment</span></button>
-        <button><i class="fa-solid fa-share"></i> <span class="text-sm">Share</span></button>
-    </div>
-    {{-- comments-container --}}
-    {{-- <div>
+
+    @auth()
+        <div class="other-post-buttons-container">
+            {{-- buttons --}}
+            <button><i class="fa-regular fa-face-laugh-squint"></i> <span class="text-sm">Haha</span></button>
+            <button><i class="fa-regular fa-comment"></i> <span class="text-sm">Comment</span></button>
+            <button><i class="fa-solid fa-share"></i> <span class="text-sm">Share</span></button>
+        </div>
+        {{-- comments-container --}}
+        {{-- <div>
         <div class="ms-4 ">
             <div class="other-comment-content">
                 <div class="xs-image-container"><img src="https://picsum.photos/32"
@@ -171,14 +173,15 @@
             </div>
         </div>
     </div> --}}
-    <div class="post-comment-container">
-        {{-- comment-container --}}
-        <div class="comment-text-container">
-            <div class="xs-image-container"><img src="https://picsum.photos/32" alt="user-comment">
+        <div class="post-comment-container">
+            {{-- comment-container --}}
+            <div class="comment-text-container">
+                <div class="xs-image-container"><img src="https://picsum.photos/32" alt="user-comment">
+                </div>
+                <textarea name="" id="" placeholder="Here's my comment..."></textarea>
+                <button><i class="fa-solid fa-arrow-right"></i></button>
             </div>
-            <textarea name="" id="" placeholder="Here's my comment..."></textarea>
-            <button><i class="fa-solid fa-arrow-right"></i></button>
+            <div></div>
         </div>
-        <div></div>
-    </div>
+    @endauth
 </div>

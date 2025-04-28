@@ -91,13 +91,16 @@ class PostItem extends Component
         $time_difference = $time_posted->diffInSeconds(now());
         $unit = floor($time_difference) > 1 ? 'seconds ago' : 'second ago';
 
-        if ($time_difference >= 60 * 60 * 24) {
+        if ($time_posted->diffInMonths(now()) > 1){
+            $time_difference = $time_posted->diffInMonths(now());
+            $unit = floor($time_difference) > 1 ? 'months ago' : 'month ago';
+        }else if($time_posted->diffInDays(now()) > 1) {
             $time_difference = $time_posted->diffInDays(now());
             $unit = floor($time_difference) > 1 ? 'days ago' : 'day ago';
-        } else if ($time_difference >= 60 * 60) {
+        } else if ($time_posted->diffInHours(now()) > 1) {
             $time_difference = $time_posted->diffInHours(now());
             $unit = floor($time_difference) > 1 ? 'hours ago' : 'hour ago';
-        } else if ($time_difference >= 60) {
+        } else if ($time_posted->diffInMinutes(now()) > 1) {
             $time_difference = $time_posted->diffInMinutes(now());
             $unit = floor($time_difference) > 1 ? 'minutes ago' : 'minute ago';
         }

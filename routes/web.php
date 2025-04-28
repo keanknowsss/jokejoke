@@ -6,6 +6,8 @@ use App\Http\Controllers\FeedController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
 
+use App\Livewire\Profile;
+
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -28,12 +30,10 @@ Route::middleware(['guest'])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::view('/profile', 'profile')->name('profile');
+    Route::get('/profile', Profile::class)->name('profile');
+
     Route::post('/logout', [AuthController::class, 'destroy'])
         ->name('user.logout');
-
-    Route::post('/post/store', [PostController::class, 'store'])
-        ->name('post.store');
 });
 
 
