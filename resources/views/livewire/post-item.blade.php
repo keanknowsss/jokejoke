@@ -54,7 +54,7 @@
                         :class="{ 'post-more-option-active': openOptions }">
                         <i class="fa-solid fa-ellipsis text-lg"></i>
                     </button>
-                    <div class="post-more-option-content shadow-lg" x-show="openOptions" x-transition>
+                    <div class="post-more-option-content shadow-lg" x-show="openOptions" x-transition x-cloak>
                         <button @click="editMode = true">Edit Text</button>
                         <button @click="handleDelete">Delete</button>
                     </div>
