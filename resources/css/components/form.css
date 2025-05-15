@@ -1,3 +1,7 @@
+::\-ms-reveal {
+    display: none;
+}
+
 .input-field {
     display: flex;
     flex-direction: column;

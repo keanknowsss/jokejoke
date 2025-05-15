@@ -136,10 +136,32 @@
     font-size: 14px;
 }
 
+.profile-content .profile-btn-container {
+    margin-top: 2.5rem;
+    padding-left: 1rem;
+    display: flex;
+    gap: 4px;
+}
+
+.profile-content .profile-btn-container button {
+    padding: 10px 25px;
+    font-size: 14px;
+    transition: background 0.2s ease-out;
+    border-radius: 25px;
+}
+.profile-content .profile-btn-container button:hover {
+    background: var(--gray-2);
+}
+.profile-content .profile-btn-container button.active {
+    font-weight: bold;
+    color: white;
+    background: black;
+}
+
 .divider {
     border: 4px solid black;
     border-radius: 10px;
-    margin-block: 24px;
+    margin-block: 12px 24px;
 }
 
 
@@ -149,6 +171,48 @@
 .profile-feed-container .profile-feed {
     width: 70%;
 }
+.profile-feed .about-container {
+    padding-left: 1.8rem;
+    padding-bottom: 2rem;
+    font-size: 14px;
+    display: flex;
+    gap: 1rem;
+}
+.about-container .about-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    flex: 1;
+}
+.about-container button {
+    font-weight: bold;
+    font-size: 14px;
+    padding: 10px 25px;
+    border-radius: 25px;
+    border: 1px solid black;
+    /* padding: 5px 3rem; */
+}
+.about-container textarea {
+    height: 18ch;
+}
+
+.about-container .edit-btn, .about-container .save-btn {
+    background-color: var(--blue-1);
+}
+.about-container .save-btn {
+    padding: 10px 1.2rem;
+}
+.about-container .cancel-btn {
+    background-color: var(--gray-2);
+    padding: 10px 2rem;
+}
+.profile-edit-btn-container {
+    display: flex;
+    justify-content: end;
+    flex-direction: row-reverse;
+    gap: 0.7rem;
+}
+
 .profile-feed-container .suggestions-bar {
     width: 30%;
     position: sticky;
@@ -221,7 +285,6 @@
     border-radius: 21px;
     border: 1px solid black;
     opacity: 0.9;
-
 }
 .submit-button:hover {
     opacity: 1;
@@ -340,6 +403,7 @@
     align-items: center;
     padding-top: 2rem;
     gap: 2rem;
+    margin-bottom: 3rem;
 }
 .suggestions-bar .follow-user-container {
     display: flex;
