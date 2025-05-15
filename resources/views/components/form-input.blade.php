@@ -10,16 +10,16 @@
 
 @if ($type == 'password')
     <div x-data="{ showPassword: false }" class="password-field">
-        <input
-            :type="showPassword ? 'text' : 'password'"
-            name={{ $name }}
+        <input :type="showPassword ? 'text' : 'password'" name={{ $name }}
             {{ $attributes->merge(['class' => "form-input $error_class"]) }}>
-        <button type="button" @click="showPassword = !showPassword" >
+        <button type="button" @click="showPassword = !showPassword">
             <i x-show="showPassword" class="fa-regular fa-eye"></i>
             <i x-show="!showPassword" class="fa-regular fa-eye-slash"></i>
         </button>
     </div>
+@elseif ($type === 'textarea')
+    <textarea name="{{ $name }}" {{ $attributes->merge(['class' => "form-input {$error_class}"]) }}></textarea>
 @else
-    <input name={{ $name }} type={{ $type }} value="{{ old($name, '') }}"
+    <input name={{ $name }} type={{ $type }}
         {{ $attributes->merge(['class' => "form-input $error_class"]) }} />
 @endif

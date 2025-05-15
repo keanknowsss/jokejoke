@@ -26,15 +26,16 @@
                     <div class="name-input-container">
                         <div class="input-field">
                             <x-form-label for="first-name">First Name</x-form-label>
-                            <x-form-input type="text" name="first_name" id="first-name" placeholder="e.g. John"
-                                required />
+                            <x-form-input type="text" name="first_name" id="first-name" value="{{ old($first_name, '') }}"
+                                placeholder="e.g. John" required />
                             <x-form-error name="first_name" />
                         </div>
 
 
                         <div class="input-field">
                             <x-form-label for="last-name">Last Name</x-form-label>
-                            <x-form-input type="text" name="last_name" id="last-name" placeholder="e.g. Doe" required />
+                            <x-form-input type="text" name="last_name" id="last-name" value="{{ old($last_name, '') }}"
+                                placeholder="e.g. Doe" required />
                             <x-form-error name="last_name" />
                         </div>
 
@@ -42,7 +43,7 @@
 
                     <div class="input-field">
                         <x-form-label for="email">Email Address</x-form-label>
-                        <x-form-input type="email" name="email" id="email"
+                        <x-form-input type="email" name="email" id="email" value="{{ old($email, '') }}"
                             placeholder="Enter your Email Address here" required />
                         <x-form-error name="email" />
                     </div>
@@ -50,8 +51,8 @@
 
                     <div class="input-field">
                         <x-form-label for="username">Username</x-form-label>
-                        <x-form-input type="text" name="username" id="username" placeholder="Enter your Username here"
-                            required />
+                        <x-form-input type="text" name="username" id="username" value="{{ old($username, '') }}"
+                            placeholder="Enter your Username here" required />
                         <x-form-error name="username" />
                     </div>
 
