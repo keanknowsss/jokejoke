@@ -38,7 +38,7 @@
     <div class="flex justify-between items-center">
         <div class="user-info-post-container">
             {{-- User posted --}}
-            <div class="sm-image-container">
+            <div class="sm-image-container border shadow">
                 <img src="https://picsum.photos/42" alt="user-name">
             </div>
             <div class="flex flex-col align-items-center justify-center">

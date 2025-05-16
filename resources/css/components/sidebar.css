@@ -8,6 +8,7 @@
     top: 3rem;
     height: fit-content;
 }
+
 .profile-bar {
     width: 25%;
 }
@@ -30,7 +31,17 @@
 .sidebar-img {
     border-radius: 100%;
     overflow: hidden;
-    width: max-content;
+    width: 100px;
+    height: 100px;
+    border: 1px solid var(--gray-1);
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+}
+
+.sidebar-img>img {
+    height: 100%;
+    width: 100%;
 }
 
 .sidebar-navlinks {
@@ -54,6 +65,7 @@
     border-radius: 5px;
     transition: ease-in 0.15s all;
 }
+
 .sidebar-navlinks div p:hover {
     background-color: black;
     color: white;

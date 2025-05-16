@@ -58,3 +58,25 @@ button:hover {
 input[disabled] {
     background: rgba(0,0,0,0.2);
 }
+
+.xs-image-container {
+    height: 32px;
+    width: 32px;
+    overflow: hidden;
+    border-radius: 100%;
+}
+.xs-image-container>img {
+    height: 100%;
+    width: 100%;
+}
+
+.sm-image-container {
+    height: 42px;
+    width: 42px;
+    border-radius: 100%;
+    overflow: hidden;
+}
+.sm-image-container>img {
+    height: 100%;
+    width: 100%;
+}

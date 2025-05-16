@@ -5,6 +5,7 @@
 @endpush
 
 @section('content')
+    @livewire('image-viewer')
 
     <div class="feed-container">
         @livewire('sidebar')

@@ -2,7 +2,9 @@
     <div>
         <div class="post-input-container">
             <div>
-                <div class="xs-image-container"><img src="https://picsum.photos/32" alt="user-post"></div>
+                <div class="xs-image-container border shadow">
+                    <img src="{{ Storage::url(auth()->user()->profile->profile_pic_path) }}" alt="user-post">
+                </div>
             </div>
             <textarea name="post_content" id="post-content" value="{{ old('post_content') }}" placeholder="Make us laugh..."
                 rows="3" wire:model="post_content"></textarea>

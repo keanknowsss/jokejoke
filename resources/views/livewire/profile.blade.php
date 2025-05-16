@@ -3,14 +3,21 @@
 @endpush
 
 <div>
-    <div class="profile-page-container" x-data="{ display: 'about' }">
-        <livewire:sidebar />
+    @livewire('image-viewer')
+
+
+    <div class="profile-page-container" x-data="{ display: 'jokes' }">
+        @livewire('sidebar')
 
         <section class="profile-content">
             <div class="profile-header-container">
-                <div class="cover-photo-container"><img src="https://picsum.photos/900/200" alt="cover-photo"></div>
+                <div class="cover-photo-container" @click="$wire.dispatch('open-image-viewer', {category: 'cover', category_id: null, id: {{ auth()->user()->id }}})">
+                    <img src="{{ Storage::url(auth()->user()->profile->cover_pic_path) }}" alt="cover-photo">
+                </div>
                 <div class="profile-info-container">
-                    <div class="profile-img-container"><img src="https://picsum.photos/180" alt="profile-user"></div>
+                    <div class="profile-img-container" @click="$wire.dispatch('open-image-viewer', {category: 'profile', category_id: null, id: {{ auth()->user()->id }}})">
+                        <img src="{{ Storage::url(auth()->user()->profile->profile_pic_path) }}" alt="profile-user">
+                    </div>
                     <div class="profile-text-container">
                         <div class="flex flex-col">
                             <p class="profile-name">{{ auth()->user()->first_name . ' ' . auth()->user()->last_name }}
@@ -24,12 +31,7 @@
                     </div>
                 </div>
             </div>
-            <p class="profile-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus sed
-                maiores exercitationem excepturi illum, impedit aliquam beatae molestias deserunt quidem. Vel ad
-                cupiditate
-                laboriosam molestias pariatur officia dolorem possimus, et explicabo beatae corporis quis reprehenderit
-                cumque repellendus nobis sit at alias odit. Perspiciatis ullam possimus deserunt, illum quidem a neque!
-            </p>
+            <p class="profile-description">{{ auth()->user()->profile->bio }}</p>
             <div class="profile-btn-container">
                 <button :class="{ 'active': display === 'jokes' }" @click="display = 'jokes'">My Jokes</button>
                 <button :class="{ 'active': display === 'about' }" @click="display = 'about'">About</button>

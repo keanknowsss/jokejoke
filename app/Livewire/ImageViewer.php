@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Attachment;
 use App\Models\Post;
+use App\Models\Profile;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -23,7 +24,7 @@ class ImageViewer extends Component
      * @return void
      */
     #[On('open-image-viewer')]
-    public function loadImages(string $category, string $category_id, string $id)
+    public function loadImages(string $category, string $category_id = null, string $id = null)
     {
 
         if ($category === 'post') {
@@ -42,6 +43,16 @@ class ImageViewer extends Component
 
             array_unshift($images, $current_image);
             $this->images = $images;
+        } else if ($category === 'profile') {
+            $this->images = Profile::where('user_id', $id)
+                ->get()
+                ->map(fn($image) => $image->profile_pic_path = Storage::url($image->profile_pic_path))
+                ->toArray();
+        } else if ($category === 'cover') {
+            $this->images = Profile::where('user_id', $id)
+                ->get()
+                ->map(fn($image) => $image->cover_pic_path = Storage::url($image->cover_pic_path))
+                ->toArray();
         }
 
         $this->dispatch('image-loaded');
