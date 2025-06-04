@@ -14,13 +14,16 @@
     top: 3rem;
     height: fit-content;
 }
+
 .profile-bar {
     width: 25%;
 }
+
 .profile-content {
     width: 75%;
     padding: 0 1rem;
 }
+
 .profile-bar-content {
     width: 100%;
     display: flex;
@@ -62,6 +65,7 @@
     border-radius: 5px;
     transition: ease-in 0.15s all;
 }
+
 .sidebar-navlinks div p:hover {
     background-color: black;
     color: white;
@@ -78,15 +82,50 @@
     margin-bottom: 8rem;
 }
 
+.cover-container {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.6);
+    -webkit-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.6);
+    -moz-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.6);
+}
 
 .cover-photo-container {
     width: 100%;
-    height: 300px;
+    height: 100%;
     cursor: pointer;
 }
+
 .cover-photo-container img {
     width: 100%;
     height: 100%;
+    aspect-ratio: 4/1;
+}
+
+.cover-container>button {
+    background: #08B7FC0F;
+    opacity: 0.9;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    height: 40px;
+    width: 40px;
+    padding: 10px;
+    border-radius: 100%;
+    display: grid;
+    place-items: center;
+    z-index: 10;
+    transition: 0.15s ease-in all;
+    pointer-events: all;
+    box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.6);
+    -webkit-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.6);
+    -moz-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.6);
+}
+
+.cover-container>button:hover {
+    opacity: 1;
+    background: var(--blue-1)
 }
 
 .profile-img-container {
@@ -94,15 +133,38 @@
     width: 200px;
     overflow: hidden;
     border-radius: 100%;
-    box-shadow: 0px 0px 9px 1px rgba(0,0,0,0.75);
-    -webkit-box-shadow: 0px 0px 9px 1px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 0px 9px 1px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 9px 1px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 0px 0px 9px 1px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 0px 9px 1px rgba(0, 0, 0, 0.75);
     cursor: pointer;
     pointer-events: all;
+    position: relative
 }
+
 .profile-img-container img {
     width: 100%;
     height: 100%;
+}
+
+.profile-img-container .edit-profile-img-btn-container {
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    text-align: center;
+    width: 100%;
+    height: 30%;
+}
+
+.profile-img-container .edit-profile-img-btn {
+    cursor: pointer;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+    pointer-events: all;
 }
 
 .profile-header-container .profile-name {
@@ -110,6 +172,7 @@
     font-weight: bold;
     line-height: 25px;
 }
+
 .profile-header-container .profile-username {
     font-size: 19px;
     font-weight: 500;
@@ -153,9 +216,11 @@
     transition: background 0.2s ease-out;
     border-radius: 25px;
 }
+
 .profile-content .profile-btn-container button:hover {
     background: var(--gray-2);
 }
+
 .profile-content .profile-btn-container button.active {
     font-weight: bold;
     color: white;
@@ -172,9 +237,11 @@
 .profile-feed-container {
     display: flex;
 }
+
 .profile-feed-container .profile-feed {
     width: 70%;
 }
+
 .profile-feed .about-container {
     padding-left: 1.8rem;
     padding-bottom: 2rem;
@@ -182,12 +249,14 @@
     display: flex;
     gap: 1rem;
 }
+
 .about-container .about-info {
     display: flex;
     flex-direction: column;
     gap: 2rem;
     flex: 1;
 }
+
 .about-container button {
     font-weight: bold;
     font-size: 14px;
@@ -196,20 +265,25 @@
     border: 1px solid black;
     /* padding: 5px 3rem; */
 }
+
 .about-container textarea {
     height: 18ch;
 }
 
-.about-container .edit-btn, .about-container .save-btn {
+.about-container .edit-btn,
+.about-container .save-btn {
     background-color: var(--blue-1);
 }
+
 .about-container .save-btn {
     padding: 10px 1.2rem;
 }
+
 .about-container .cancel-btn {
     background-color: var(--gray-2);
     padding: 10px 2rem;
 }
+
 .profile-edit-btn-container {
     display: flex;
     justify-content: end;
@@ -221,7 +295,7 @@
     width: 30%;
     position: sticky;
     top: 3rem;
-    right:0;
+    right: 0;
     height: fit-content;
 }
 
@@ -230,6 +304,7 @@
     border: 1px solid black;
     border-radius: 21px;
 }
+
 .add-post-container .post-input-container {
     border-bottom: 1px solid black;
     padding: 12px;
@@ -245,7 +320,10 @@
     overflow: hidden;
     min-height: 70px;
 }
-.post-input-container textarea:hover, .post-input-container textarea:focus, .post-input-container textarea:active {
+
+.post-input-container textarea:hover,
+.post-input-container textarea:focus,
+.post-input-container textarea:active {
     border: none;
     outline: none;
 }
@@ -256,35 +334,26 @@
     justify-content: space-between;
     width: 100%;
 }
+
 .post-buttons-container .attachment-buttons {
     display: flex;
     gap: 1rem;
 }
+
 .attachment-buttons i {
     margin-right: 4px;
 }
+
 .post-buttons-container button {
     font-size: 14px;
     font-weight: bold;
     transition: ease-in 0.15s opacity;
     opacity: 0.9;
 }
+
 .post-buttons-container button:hover {
     opacity: 1;
 }
-
-.submit-button {
-    padding: 5px 3rem;
-    background-color: var(--blue-1);
-    border-radius: 21px;
-    border: 1px solid black;
-    opacity: 0.9;
-}
-.submit-button:hover {
-    opacity: 1;
-}
-
-
 
 
 .feed-content-container {
@@ -300,10 +369,12 @@
     gap: 1rem;
     margin-bottom: 1rem;
 }
+
 .user-info-post-container .post-name {
     font-size: 14px;
     font-weight: bold;
 }
+
 .user-info-post-container .post-time {
     font-size: 11px;
     font-weight: light;
@@ -315,6 +386,7 @@
     padding: 15px 0 15px 13px;
     font-weight: bold;
 }
+
 .other-post-buttons-container button {
     display: flex;
     gap: 10px;
@@ -325,6 +397,7 @@
     margin-left: 1rem;
     /* margin-top: 5px; */
 }
+
 .post-comment-container .comment-text-container {
     display: flex;
     align-items: center;
@@ -333,6 +406,7 @@
     border-radius: 30px;
     background-color: var(--white-1);
 }
+
 .comment-text-container textarea {
     resize: none;
     height: 2.2rem;
@@ -343,10 +417,13 @@
     padding-left: 2px;
     background: none;
 }
-.comment-text-container textarea:focus, .comment-text-container textarea:active {
+
+.comment-text-container textarea:focus,
+.comment-text-container textarea:active {
     border: none;
     outline: none;
 }
+
 .comment-text-container button {
     background: var(--black-1);
     border-radius: 100%;
@@ -361,10 +438,12 @@
     gap: 12px;
     font-size: 14px;
 }
+
 .other-comment-content .other-comment-name {
     font-weight: bold;
     margin-bottom: 4px;
 }
+
 .other-comment-content .other-comment-time {
     font-size: 10px;
     font-weight: light;
@@ -390,6 +469,7 @@
     gap: 2rem;
     margin-bottom: 3rem;
 }
+
 .suggestions-bar .follow-user-container {
     display: flex;
     align-items: center;
@@ -397,16 +477,20 @@
     justify-content: space-between;
     padding: 0 2rem;
 }
+
 .suggestions-bar .follow-user-info {
     display: flex;
     gap: 10px;
 }
+
 .suggestions-bar .other-name {
     font-size: 14px;
 }
+
 .suggestions-bar .other-username {
     font-size: 11px;
 }
+
 .follow-user-container button {
     font-weight: bold;
     color: white;
@@ -415,4 +499,49 @@
     height: 100%;
     padding: 10px 25px;
     border-radius: 25px;
+}
+
+.update-cover-img-container, .update-profile-img-container {
+    box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.6);
+    -webkit-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.6);
+    -moz-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.6);
+}
+
+.update-cover-img-container {
+    width: 100%;
+    height: 200px;
+    aspect-ratio: 4/1;
+    position: relative;
+}
+
+.update-cover-img-container img {
+    width: 100%;
+    height: 100%;
+}
+
+.loading-container-backdrop {
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    pointer-events: all;
+    cursor: progress;
+}
+.loading-container-backdrop > .loading-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.update-profile-img-container {
+    width: 50%;
+    margin: auto;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+}
+
+.update-profile-img-container > * {
+    aspect-ratio: 1 / 1;
 }

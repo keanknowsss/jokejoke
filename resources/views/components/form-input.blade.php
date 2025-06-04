@@ -17,6 +17,8 @@
             <i x-show="!showPassword" class="fa-regular fa-eye-slash"></i>
         </button>
     </div>
+@elseif ($type === 'file')
+    <input type="file" name="{{ $name }}" {{  $attributes->merge() }}>
 @elseif ($type === 'textarea')
     <textarea name="{{ $name }}" {{ $attributes->merge(['class' => "form-input {$error_class}"]) }}></textarea>
 @else
