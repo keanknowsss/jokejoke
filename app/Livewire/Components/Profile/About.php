@@ -83,7 +83,7 @@ class About extends Component
 
             $this->loadUserData();
 
-            $this->dispatch('updated', [
+            $this->dispatch('updatedAbout', [
                 'status' => 'success',
                 'message' => 'User Information successfully saved!'
             ]);
@@ -91,7 +91,7 @@ class About extends Component
         } catch (\Throwable $th) {
             DB::rollBack();
 
-            $this->dispatch('updated', [
+            $this->dispatch('updatedAbout', [
                 'status' => 'error',
                 'message' => 'Update failed. Something went wrong.'
             ]);

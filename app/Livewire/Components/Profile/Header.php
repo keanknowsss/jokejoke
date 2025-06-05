@@ -5,6 +5,7 @@ namespace App\Livewire\Components\Profile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
+use Livewire\Attributes\On;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -13,11 +14,27 @@ class Header extends Component
 {
     use WithFileUploads;
 
+    public string $username;
+
+    public string $name;
+
     #[Rule(['required', 'image', 'max:5120'])]
     public $cover_photo;
 
     #[Rule(['required', 'image', 'max:5120'])]
     public $profile_photo;
+
+    public function mount()
+    {
+        $this->fetchUserData();
+    }
+
+    #[On('updatedAbout')]
+    public function fetchUserData()
+    {
+        $this->username = auth()->user()->username;
+        $this->name = auth()->user()->first_name . ' ' . auth()->user()->last_name;
+    }
 
     public function uploadCoverPic()
     {
@@ -66,7 +83,7 @@ class Header extends Component
 
             $this->dispatch('profilePicUploaded', [
                 'status' => 'success',
-                'message' => 'Cover photo successfully updated'
+                'message' => 'Profile photo successfully updated'
             ]);
         } catch (\Throwable $th) {
             DB::rollBack();

@@ -118,7 +118,7 @@
             )
         }
 
-        window.addEventListener("updated", (event) => {
+        window.addEventListener("updatedAbout", (event) => {
             const {
                 status,
                 message

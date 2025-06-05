@@ -60,9 +60,9 @@
 
         <div class="profile-text-container">
             <div class="flex flex-col">
-                <p class="profile-name">{{ auth()->user()->first_name . ' ' . auth()->user()->last_name }}
+                <p class="profile-name">{{ $name }}
                 </p>
-                <p class="profile-username">{{ '@' . auth()->user()->username }}</p>
+                <p class="profile-username">{{ '@' . $username }}</p>
             </div>
             <div class="flex flex-col">
                 <p><b>1.25k</b> Followers</p>
