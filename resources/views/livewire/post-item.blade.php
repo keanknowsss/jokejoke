@@ -39,7 +39,7 @@
         <div class="user-info-post-container">
             {{-- User posted --}}
             <div class="sm-image-container border shadow">
-                <img src="https://picsum.photos/42" alt="user-name">
+                <img src="{{ $post_profile_pic }}" alt="user-name">
             </div>
             <div class="flex flex-col align-items-center justify-center">
                 <p class="font-bold post-name">{{ ucwords($post->user->first_name . ' ' . $post->user->last_name) }}</p>
@@ -176,7 +176,7 @@
         <div class="post-comment-container">
             {{-- comment-container --}}
             <div class="comment-text-container">
-                <div class="xs-image-container"><img src="https://picsum.photos/32" alt="user-comment">
+                <div class="xs-image-container"><img src="{{ $user_profile_pic }}" alt="user-comment">
                 </div>
                 <textarea name="" id="" placeholder="Here's my comment..."></textarea>
                 <button><i class="fa-solid fa-arrow-right"></i></button>

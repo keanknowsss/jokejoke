@@ -8,7 +8,7 @@
         <div class="profile-bar-content">
             <div class="user-info-container">
                 <div class="sidebar-img">
-                    <img src="{{ asset('assets/placeholders/user_avatar.png') }}" height="106" alt="user-profile">
+                    <img src="{{ $profile_pic }}" height="106" alt="user-profile">
                 </div>
                 <div>
                     <p class="font-bold text-center">{{ $fullname }}</p>

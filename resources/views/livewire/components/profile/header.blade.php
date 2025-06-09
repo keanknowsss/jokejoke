@@ -26,18 +26,18 @@
                 @endif
             </div>
 
-            <div class="mt-4 mb-2 px-1">
-                <button class="button-square-main-2 w-full !py-3" @click="$refs.coverFileInput.click()"><i
+            <form class="mt-4 mb-2 px-1" wire:submit.prevent="uploadCoverPic" id="update-cover-pic-form">
+                <button type="button" class="button-square-main-2 w-full !py-3" @click="$refs.coverFileInput.click()"><i
                         class="fa-solid fa-upload"></i> Upload New Cover Photo</button>
                 <x-form-input type="file" name="cover_photo" id="cover-photo" wire:model="cover_photo"
                     x-ref="coverFileInput" accept="image/jpeg, image/png" hidden />
                 <x-form-error name="cover_photo" />
-            </div>
+            </form>
 
             @slot('footer')
                 <div class="float-right flex gap-2">
                     <button class="button-square-secondary-1" @click="$dispatch('close-modal')">Cancel</button>
-                    <button class="button-square-main-1" wire:click="uploadCoverPic()">Save</button>
+                    <button class="button-square-main-1" @click="saveCoverPic">Save</button>
                 </div>
             @endslot
 
@@ -56,6 +56,42 @@
                 <button class="edit-profile-img-btn"
                     @click="$dispatch('open-modal', {  name: 'update-profile-pic' })">Update Photo</button>
             </div>
+
+            <x-modal name="update-profile-pic" title="Update Profile Photo">
+                <div class="update-profile-img-container cursor-pointer !mt-2">
+                    <div wire:loading wire:target="profile_photo" class="loading-container-backdrop">
+                        <div class="loading-container">
+                            <x-loader size="50" />
+                            <p class="text-center text-white"> Loading...</p>
+                        </div>
+                    </div>
+
+
+                    @if ($profile_photo)
+                        <img src="{{ $profile_photo->temporaryUrl() }}"alt="cover-photo"
+                            @click="$refs.coverFileInput.click()">
+                    @else
+                        <img src="{{ Storage::url(auth()->user()->profile->profile_pic_path) }}" alt="cover-photo"
+                            @click="$refs.profilePicInput.click()">
+                    @endif
+                </div>
+
+                <form class="mt-4 mb-2 px-1" id="update-profile-pic-form" wire:submit.prevent="uploadProfilePic">
+                    <button type="button" class="button-square-main-2 w-full !py-3" @click="$refs.profilePicInput.click()"><i
+                            class="fa-solid fa-upload"></i> Upload New Profile Picture</button>
+                    <x-form-input type="file" name="profile_photo" id="profile-photo" wire:model="profile_photo"
+                        x-ref="profilePicInput" accept="image/jpeg, image/png" hidden />
+                    <x-form-error name="profile_photo" />
+                </form>
+
+
+                @slot('footer')
+                    <div class="float-right flex gap-2">
+                        <button class="button-square-secondary-1" @click="$dispatch('close-modal')">Cancel</button>
+                        <button class="button-square-main-1" @click="saveProfilePic">Save</button>
+                    </div>
+                @endslot
+            </x-modal>
         </div>
 
         <div class="profile-text-container">
@@ -73,50 +109,37 @@
 
     </div>
 
-    {{--  --}}
-    <x-modal name="update-profile-pic" title="Update Profile Photo">
-        <div class="update-profile-img-container cursor-pointer !mt-2">
-            <div wire:loading wire:target="profile_photo" class="loading-container-backdrop">
-                <div class="loading-container">
-                    <x-loader size="50" />
-                    <p class="text-center text-white"> Loading...</p>
-                </div>
-            </div>
 
-
-            @if ($profile_photo)
-                <img src="{{ $profile_photo->temporaryUrl() }}"alt="cover-photo" @click="$refs.coverFileInput.click()">
-            @else
-                <img src="{{ Storage::url(auth()->user()->profile->profile_pic_path) }}" alt="cover-photo"
-                    @click="$refs.profilePicInput.click()">
-            @endif
-        </div>
-
-        <div class="mt-4 mb-2 px-1">
-            <button class="button-square-main-2 w-full !py-3" @click="$refs.profilePicInput.click()"><i
-                    class="fa-solid fa-upload"></i> Upload New Profile Picture</button>
-            <x-form-input type="file" name="profile_photo" id="profile-photo" wire:model="profile_photo"
-                x-ref="profilePicInput" accept="image/jpeg, image/png" hidden />
-            <x-form-error name="profile_photo" />
-        </div>
-
-
-        @slot('footer')
-            <div class="float-right flex gap-2">
-                <button class="button-square-secondary-1" @click="$dispatch('close-modal')">Cancel</button>
-                <button class="button-square-main-1" wire:click="uploadProfilePic()">Save</button>
-            </div>
-        @endslot
-    </x-modal>
 </div>
 
 @push('scripts')
     <script>
-        const updatePhotoHandler = (event) => {
+        const saveCoverPic = () => savePhotoHandler("cover");
+        const saveProfilePic = () => savePhotoHandler("profile");
+
+        const savePhotoHandler = (type) => {
+            const form = type === "cover" ? document.getElementById("update-cover-pic-form") : document.getElementById("update-profile-pic-form")
+
+            Notiflix.Confirm.show(
+                "Attention!",
+                `Are you sure you want to update your ${type} picture?`,
+                "Sure, go!",
+                "No",
+                () => {
+                    Notiflix.Loading.standard("Saving Picture. Please wait...");
+                    form.requestSubmit();
+                },
+                () => null, {}
+            );
+        }
+
+        const updatedPhotoHandler = (event) => {
             const {
                 status,
                 message
             } = event.detail[0];
+
+            Notiflix.Loading.remove();
 
             // Dispatch Alpine event manually from global scope
             document.dispatchEvent(new CustomEvent("close-modal", {
@@ -134,8 +157,8 @@
             }
         }
 
-        window.addEventListener("coverUploaded", updatePhotoHandler)
-        window.addEventListener("profilePicUploaded", updatePhotoHandler);
+        window.addEventListener("coverUploaded", updatedPhotoHandler)
+        window.addEventListener("profilePicUploaded", updatedPhotoHandler);
 
 
         // window.addEventListener("profilePicUploaded", (event) => {

@@ -5,6 +5,8 @@ namespace App\Livewire;
 use App\Models\Attachment;
 use App\Models\Post;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -22,6 +24,8 @@ class PostForm extends Component
     #[Rule(['nullable', 'array'])]
     public array $images = [];
 
+    public $profile_pic;
+
     public function rules()
     {
         return [
@@ -37,6 +41,12 @@ class PostForm extends Component
             'images.*.max' => 'Each image must not be greater than 1024 KB.',
             'images.*.mimes' => 'Each image must be a JPG or PNG file.',
         ];
+    }
+
+    #[On('profilePicUploaded')]
+    public function updatedProfilePic()
+    {
+        $this->profile_pic = Storage::url($this->profile_pic = auth()->user()->profile->profile_pic_path);
     }
 
     public function updatedImages()
@@ -56,14 +66,16 @@ class PostForm extends Component
         }
     }
 
-    public function removeImage($index) {
+    public function removeImage($index)
+    {
         if ($this->images[$index]) {
             unset($this->images[$index]);
             $this->images = array_values($this->images);
         }
     }
 
-    public function resetFile() {
+    public function resetFile()
+    {
         $this->reset('file');
     }
 
@@ -95,7 +107,7 @@ class PostForm extends Component
                 Attachment::create([
                     'attachable_id' => $post->id,
                     'attachable_type' => 'post',
-                    'path' => $this->file->storeAs("uploads/posts/{$post->id}", $this->file->getClientOriginalName(),'public'),
+                    'path' => $this->file->storeAs("uploads/posts/{$post->id}", $this->file->getClientOriginalName(), 'public'),
                     'file_type' => 'file'
                 ]);
             }

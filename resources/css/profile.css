@@ -181,8 +181,8 @@
 .profile-header-container .profile-info-container {
     display: flex;
     position: absolute;
-    bottom: 0;
-    transform: translateY(50%);
+    bottom: -35%;
+    /* transform: translateY(50%); */
     padding-inline: 4rem;
     width: 100%;
     gap: 1rem;

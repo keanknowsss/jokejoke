@@ -7,6 +7,7 @@ use App\Models\Post;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 
@@ -14,14 +15,29 @@ class PostItem extends Component
 {
     public Post $post;
 
+    public $post_profile_pic;
+
+    public $user_profile_pic;
+
     #[Rule(['required', 'string'])]
     public string $text_content;
 
-    public function mount(Post $post) {
+    public function mount(Post $post)
+    {
         $this->text_content = $post->content;
+        $this->post_profile_pic = $post->user->profile->profile_pic_path ? Storage::url($post->user->profile->profile_pic_path) : asset('assets/placeholders/user_avatar.png');
+        $this->user_profile_pic = auth()->user()->profile->profile_pic_path ? Storage::url(auth()->user()->profile->profile_pic_path) : asset('assets/placeholders/user_avatar.png');
     }
 
-    public function downloadFile($attachment_id) {
+    #[On('profilePicUploaded')]
+    public function updatedProfilePic()
+    {
+        $this->user_profile_pic = Storage::url(auth()->user()->profile->profile_pic_path);
+        $this->post_profile_pic = Storage::url($this->post->user->profile->profile_pic_path);
+    }
+
+    public function downloadFile($attachment_id)
+    {
         try {
             $attachment = Attachment::findOrFail($attachment_id);
             $path = $attachment->path;
@@ -37,7 +53,8 @@ class PostItem extends Component
         }
     }
 
-    public function destroy() {
+    public function destroy()
+    {
         try {
             $this->post->delete();
             $this->dispatch('postDeleted', [
@@ -52,7 +69,8 @@ class PostItem extends Component
         }
     }
 
-    public function update() {
+    public function update()
+    {
         try {
             $this->validate();
 
@@ -91,10 +109,10 @@ class PostItem extends Component
         $time_difference = $time_posted->diffInSeconds(now());
         $unit = floor($time_difference) > 1 ? 'seconds ago' : 'second ago';
 
-        if ($time_posted->diffInMonths(now()) > 1){
+        if ($time_posted->diffInMonths(now()) > 1) {
             $time_difference = $time_posted->diffInMonths(now());
             $unit = floor($time_difference) > 1 ? 'months ago' : 'month ago';
-        }else if($time_posted->diffInDays(now()) > 1) {
+        } else if ($time_posted->diffInDays(now()) > 1) {
             $time_difference = $time_posted->diffInDays(now());
             $unit = floor($time_difference) > 1 ? 'days ago' : 'day ago';
         } else if ($time_posted->diffInHours(now()) > 1) {
