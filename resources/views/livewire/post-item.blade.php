@@ -42,7 +42,7 @@
                 <img src="{{ $post_profile_pic }}" alt="user-name">
             </div>
             <div class="flex flex-col align-items-center justify-center">
-                <p class="font-bold post-name">{{ ucwords($post->user->first_name . ' ' . $post->user->last_name) }}</p>
+                <p class="font-bold post-name"><a href="{{ route('profile', ['user_id' => $post->user_id ]) }}">{{ ucwords($post->user->first_name . ' ' . $post->user->last_name) }}</a></p>
                 <p class="font-light post-time">{{ $time_posted }}</p>
             </div>
         </div>

@@ -22,17 +22,18 @@ class PostForm extends Component
     public $file;
 
     #[Rule(['nullable', 'array'])]
-    public array $images = [];
+    #[Rule(['images.*' => ['image', 'max:5124', 'mimes:jpg,png']])]
+    public $images;
 
     public $profile_pic;
 
-    public function rules()
-    {
-        return [
-            'images' => ['nullable', 'array'],
-            'images.*' => ['image', 'max:5124', 'mimes:jpg,png'], // Validate each image
-        ];
-    }
+    // public function rules()
+    // {
+    //     return [
+    //         'images' => ['nullable', 'array'],
+    //         'images.*' => ['image', 'max:5124', 'mimes:jpg,png'], // Validate each image
+    //     ];
+    // }
 
     public function messages()
     {

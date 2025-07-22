@@ -23,7 +23,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('profile') }}">
+                        <a href="{{ route('profile', ['user_id' => auth()->user()->id]) }}">
                             <p><i class="fa-solid fa-user"></i> Profile</p>
                         </a>
                     </li>

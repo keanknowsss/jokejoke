@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Components\Profile;
 
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
@@ -14,9 +16,15 @@ class Header extends Component
 {
     use WithFileUploads;
 
+    public int $user_id;
     public string $username;
 
     public string $name;
+
+    public string $profile_photo_link;
+    public bool $has_profile_pic;
+    public string $cover_photo_link;
+    public bool $has_cover_pic;
 
     #[Rule(['required', 'image', 'max:5120'])]
     public $cover_photo;
@@ -24,12 +32,25 @@ class Header extends Component
     #[Rule(['required', 'image', 'max:5120'])]
     public $profile_photo;
 
-    public function mount()
-    {
-        $this->fetchUserData();
+    public function mount(
+        int $user_id,
+        string $username,
+        string $name,
+        string|null $profile_pic,
+        string|null $cover_pic
+    ) {
+        $this->user_id = $user_id;
+        $this->username = $username;
+        $this->name = $name;
+
+        $this->profile_photo_link = $profile_pic ? Storage::url($profile_pic) : asset('assets/placeholders/user_avatar.png');
+        $this->has_profile_pic = $profile_pic ? true : false;
+
+        $this->cover_photo_link = $cover_pic ? Storage::url($cover_pic) : asset('assets/placeholders/user_cover.jpg');
+        $this->has_cover_pic = $cover_pic ? true : false;
     }
 
-    #[On('updatedAbout')]
+
     public function fetchUserData()
     {
         $this->username = auth()->user()->username;
@@ -100,6 +121,8 @@ class Header extends Component
 
     public function render()
     {
-        return view('livewire.components.profile.header');
+        return auth()->user()->id === $this->user_id ?
+            view('livewire.components.profile.header') :
+            view('livewire.components.profile.header_guest');
     }
 }

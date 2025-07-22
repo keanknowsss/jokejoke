@@ -30,7 +30,7 @@ Route::middleware(['guest'])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/profile', Profile::class)->name('profile');
+    Route::get('/profile/{user_id}', Profile::class)->name('profile');
 
     Route::post('/logout', [AuthController::class, 'destroy'])
         ->name('user.logout');

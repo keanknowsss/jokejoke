@@ -62,6 +62,10 @@ input[disabled] {
     background: rgba(0, 0, 0, 0.2);
 }
 
+.text-gray {
+    color: var(--gray-1) !important;
+}
+
 .xs-image-container {
     height: 32px;
     width: 32px;

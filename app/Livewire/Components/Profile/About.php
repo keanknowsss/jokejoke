@@ -11,6 +11,7 @@ use Illuminate\Validation\Rule;
 
 class About extends Component
 {
+    public int $user_id;
     public string $username = '';
 
     public string $first_name = '';
@@ -19,11 +20,11 @@ class About extends Component
 
     public string $date_joined = '';
 
-    public string $birthdate = '';
+    public ?string $birthdate = '';
 
     public string $email = '';
 
-    public string $bio = '';
+    public ?string $bio = '';
     public array $original_values = [];
 
     public function rules()
@@ -43,9 +44,39 @@ class About extends Component
         ];
     }
 
-    public function mount()
-    {
-        $this->loadUserData();
+    public function mount(
+        int $user_id,
+        string $username,
+        string $first_name,
+        string $last_name,
+        string $email,
+        string|null $birthdate,
+        string|null $bio,
+        string $date_joined
+    ) {
+        $this->user_id = $user_id;
+
+        $this->original_values = [
+            'username' => $username,
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+            'email' => $email,
+            'birthdate' => $birthdate,
+            'bio' => $bio
+        ];
+        $this->username = $this->original_values['username'];
+
+        $this->date_joined = Carbon::parse($date_joined)->format('F j, Y');
+
+        $this->first_name = $this->original_values['first_name'];
+        $this->last_name = $this->original_values['last_name'];
+
+        $this->email = $this->original_values['email'];
+        $this->birthdate = $this->original_values['birthdate'];
+
+        $this->bio = $this->original_values['bio'];
+
+        // $this->loadUserData();
     }
 
     public function update()
@@ -126,6 +157,8 @@ class About extends Component
 
     public function render()
     {
-        return view('livewire.components.profile.about');
+        return auth()->user()->id === $this->user_id ?
+            view('livewire.components.profile.about') :
+            view('livewire.components.profile.about_guest');
     }
 }

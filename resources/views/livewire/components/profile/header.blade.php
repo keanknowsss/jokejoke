@@ -2,7 +2,7 @@
     <div class="cover-container">
         <div class="cover-photo-container"
             @click="$wire.dispatch('open-image-viewer', {category: 'cover', category_id: null, id: {{ auth()->user()->id }}})">
-            <img src="{{ Storage::url(auth()->user()->profile->cover_pic_path) }}" alt="cover-photo">
+            <img src="{{ $cover_photo_link }}" alt="cover-photo">
         </div>
         <button @click="$dispatch('open-modal', {  name: 'update-cover' })" x-ref="myButton"><i
                 class="fa-solid fa-pen"></i></button>
@@ -50,7 +50,7 @@
             @mouseout="showProfilePicEditBtn = false">
             <div class="w-full h-full"
                 @click="$wire.dispatch('open-image-viewer', {category: 'profile', category_id: null, id: {{ auth()->user()->id }}})">
-                <img src="{{ Storage::url(auth()->user()->profile->profile_pic_path) }}" alt="profile-user">
+                <img src="{{ $profile_photo_link }}" alt="profile-user">
             </div>
             <div class="edit-profile-img-btn-container" x-show="showProfilePicEditBtn" x-transition.50ms>
                 <button class="edit-profile-img-btn"
