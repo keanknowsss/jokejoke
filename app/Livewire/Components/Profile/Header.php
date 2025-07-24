@@ -116,7 +116,16 @@ class Header extends Component
         }
 
         $this->reset('profile_photo');
+    }
 
+    public function resetProfilePic() {
+        $this->resetValidation(['profile_photo']);
+        $this->reset('profile_photo');
+    }
+
+    public function resetCoverPic() {
+        $this->resetValidation(['cover_photo']);
+        $this->reset('cover_photo');
     }
 
     public function render()

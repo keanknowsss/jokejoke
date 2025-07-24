@@ -1,4 +1,4 @@
-<div class="profile-header-container" x-data="{ showProfilePicEditBtn: false }">
+<div class="profile-header-container" x-data="HeaderData">
     <div class="cover-container">
         <div class="cover-photo-container"
             @click="$wire.dispatch('open-image-viewer', {category: 'cover', category_id: null, id: {{ auth()->user()->id }}})">
@@ -27,8 +27,9 @@
             </div>
 
             <form class="mt-4 mb-2 px-1" wire:submit.prevent="uploadCoverPic" id="update-cover-pic-form">
-                <button type="button" class="button-square-main-2 w-full !py-3" @click="$refs.coverFileInput.click()"><i
-                        class="fa-solid fa-upload"></i> Upload New Cover Photo</button>
+                <button type="button" class="button-square-main-2 w-full !py-3"
+                    @click="$refs.coverFileInput.click()"><i class="fa-solid fa-upload"></i> Upload New Cover
+                    Photo</button>
                 <x-form-input type="file" name="cover_photo" id="cover-photo" wire:model="cover_photo"
                     x-ref="coverFileInput" accept="image/jpeg, image/png" hidden />
                 <x-form-error name="cover_photo" />
@@ -36,8 +37,9 @@
 
             @slot('footer')
                 <div class="float-right flex gap-2">
-                    <button class="button-square-secondary-1" @click="$dispatch('close-modal')">Cancel</button>
-                    <button class="button-square-main-1" @click="saveCoverPic">Save</button>
+                    <button class="button-square-secondary-1" @click="$dispatch('close-modal')"
+                        wire:click="resetCoverPic">Cancel</button>
+                    <button class="button-square-main-1" @click="savePhotoHandler('cover')">Save</button>
                 </div>
             @endslot
 
@@ -67,7 +69,7 @@
                     </div>
 
 
-                    @if ($profile_photo)
+                    @if ($profile_photo && !$errors->has('profile_photo'))
                         <img src="{{ $profile_photo->temporaryUrl() }}"alt="cover-photo"
                             @click="$refs.coverFileInput.click()">
                     @else
@@ -76,9 +78,11 @@
                     @endif
                 </div>
 
-                <form class="mt-4 mb-2 px-1" id="update-profile-pic-form" wire:submit.prevent="uploadProfilePic">
-                    <button type="button" class="button-square-main-2 w-full !py-3" @click="$refs.profilePicInput.click()"><i
-                            class="fa-solid fa-upload"></i> Upload New Profile Picture</button>
+                <form class="mt-4 mb-2 px-1" id="update-profile-pic-form" wire:submit.prevent="uploadProfilePic"
+                    @on:livewire-upload-error="uploadingError = true">
+                    <button type="button" class="button-square-main-2 w-full !py-3"
+                        @click="$refs.profilePicInput.click()"><i class="fa-solid fa-upload"></i> Upload New Profile
+                        Picture</button>
                     <x-form-input type="file" name="profile_photo" id="profile-photo" wire:model="profile_photo"
                         x-ref="profilePicInput" accept="image/jpeg, image/png" hidden />
                     <x-form-error name="profile_photo" />
@@ -87,8 +91,9 @@
 
                 @slot('footer')
                     <div class="float-right flex gap-2">
-                        <button class="button-square-secondary-1" @click="$dispatch('close-modal')">Cancel</button>
-                        <button class="button-square-main-1" @click="saveProfilePic">Save</button>
+                        <button class="button-square-secondary-1" @click="cancelProfilePic"
+                            wire:click="resetProfilePic">Cancel</button>
+                        <button class="button-square-main-1" @click="savePhotoHandler('profile')">Save</button>
                     </div>
                 @endslot
             </x-modal>
@@ -114,24 +119,41 @@
 
 @push('scripts')
     <script>
-        const saveCoverPic = () => savePhotoHandler("cover");
-        const saveProfilePic = () => savePhotoHandler("profile");
-
-        const savePhotoHandler = (type) => {
-            const form = type === "cover" ? document.getElementById("update-cover-pic-form") : document.getElementById("update-profile-pic-form")
-
-            Notiflix.Confirm.show(
-                "Attention!",
-                `Are you sure you want to update your ${type} picture?`,
-                "Sure, go!",
-                "No",
-                () => {
-                    Notiflix.Loading.standard("Saving Picture. Please wait...");
-                    form.requestSubmit();
+        document.addEventListener("alpine:init", () => {
+            Alpine.data("HeaderData", () => ({
+                showProfilePicEditBtn: false,
+                uploadingError: false,
+                cancelProfilePic() {
+                    this.$dispatch('close-modal');
+                    this.uploadingError = false;
                 },
-                () => null, {}
-            );
-        }
+                savePhotoHandler(type) {
+                    const form = type === "cover" ? document.getElementById("update-cover-pic-form") :
+                        document.getElementById("update-profile-pic-form")
+
+                    if (!this.uploadingError) {
+                        return Notiflix.Report.failure(
+                            `Error saving ${type} picture`,
+                            "<p class='text-center'>Please upload the image in proper format and size.</p>",
+                            "Okay"
+                        );
+                    }
+
+
+                    Notiflix.Confirm.show(
+                        "Attention!",
+                        `Are you sure you want to update your ${type} picture?`,
+                        "Sure, go!",
+                        "No",
+                        () => {
+                            Notiflix.Loading.standard("Saving Picture. Please wait...");
+                            form.requestSubmit();
+                        },
+                        () => null, {}
+                    );
+                }
+            }))
+        });
 
         const updatedPhotoHandler = (event) => {
             const {
@@ -159,33 +181,5 @@
 
         window.addEventListener("coverUploaded", updatedPhotoHandler)
         window.addEventListener("profilePicUploaded", updatedPhotoHandler);
-
-
-        // window.addEventListener("profilePicUploaded", (event) => {
-        //     const {
-        //         status,
-        //         message
-        //     } = event.detail[0];
-
-        //     // reset alpine variables
-        //     if (window.postFormComponent) {
-        //         window.postFormComponent.resetFile();
-        //     }
-
-        //     // Dispatch Alpine event manually from global scope
-        //     document.dispatchEvent(new CustomEvent("close-modal", {
-        //         bubbles: true
-        //     }));
-
-        //     if (status === "success") {
-        //         Notiflix.Notify.success(message, {
-        //             position: "right-bottom"
-        //         });
-        //     } else {
-        //         Notiflix.Notify.failure(message, {
-        //             position: "right-bottom"
-        //         });
-        //     }
-        // });
     </script>
 @endpush
