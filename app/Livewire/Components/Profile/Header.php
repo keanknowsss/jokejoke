@@ -31,6 +31,7 @@ class Header extends Component
 
     #[Rule(['required', 'image', 'max:5120'])]
     public $profile_photo;
+    public bool $uploading_error = false;
 
     public function mount(
         int $user_id,
@@ -87,6 +88,23 @@ class Header extends Component
         $this->reset('cover_photo');
     }
 
+    public function updatedProfilePhoto() {
+        try {
+            $this->validateOnly('profile_photo');
+            $this->uploading_error = false;
+        } catch (\Throwable $th) {
+            $this->uploading_error = true;
+        }
+    }
+    public function updatedCoverPhoto() {
+        try {
+            $this->validateOnly('cover_photo');
+            $this->uploading_error = false;
+        } catch (\Throwable $th) {
+            $this->uploading_error = true;
+        }
+    }
+
     public function uploadProfilePic()
     {
         $this->validateOnly('profile_photo');
@@ -107,6 +125,7 @@ class Header extends Component
                 'message' => 'Profile photo successfully updated'
             ]);
         } catch (\Throwable $th) {
+            \Log($th->getMessage());
             DB::rollBack();
             $this->dispatch('profilePicUploaded', [
                 'status' => 'error',

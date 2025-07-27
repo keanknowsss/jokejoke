@@ -32,9 +32,10 @@
 <body>
     {{ $slot }}
 
-    @livewireScripts
 
     @stack('scripts')
+
+    @livewireScripts
 </body>
 
 </html>

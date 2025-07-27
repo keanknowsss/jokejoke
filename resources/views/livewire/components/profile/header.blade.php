@@ -1,4 +1,4 @@
-<div class="profile-header-container" x-data="HeaderData">
+<div class="profile-header-container" x-data="HeaderData($wire)" x-init="init()">
     <div class="cover-container">
         <div class="cover-photo-container"
             @click="$wire.dispatch('open-image-viewer', {category: 'cover', category_id: null, id: {{ auth()->user()->id }}})">
@@ -17,7 +17,7 @@
                 </div>
 
 
-                @if ($cover_photo)
+                @if ($cover_photo && !$errors->has('cover_photo'))
                     <img src="{{ $cover_photo->temporaryUrl() }}"alt="cover-photo"
                         @click="$refs.coverFileInput.click()">
                 @else
@@ -37,8 +37,7 @@
 
             @slot('footer')
                 <div class="float-right flex gap-2">
-                    <button class="button-square-secondary-1" @click="$dispatch('close-modal')"
-                        wire:click="resetCoverPic">Cancel</button>
+                    <button class="button-square-secondary-1" @click="$dispatch('close-modal')">Cancel</button>
                     <button class="button-square-main-1" @click="savePhotoHandler('cover')">Save</button>
                 </div>
             @endslot
@@ -78,8 +77,7 @@
                     @endif
                 </div>
 
-                <form class="mt-4 mb-2 px-1" id="update-profile-pic-form" wire:submit.prevent="uploadProfilePic"
-                    @on:livewire-upload-error="uploadingError = true">
+                <form class="mt-4 mb-2 px-1" id="update-profile-pic-form" wire:submit.prevent="uploadProfilePic">
                     <button type="button" class="button-square-main-2 w-full !py-3"
                         @click="$refs.profilePicInput.click()"><i class="fa-solid fa-upload"></i> Upload New Profile
                         Picture</button>
@@ -91,8 +89,7 @@
 
                 @slot('footer')
                     <div class="float-right flex gap-2">
-                        <button class="button-square-secondary-1" @click="cancelProfilePic"
-                            wire:click="resetProfilePic">Cancel</button>
+                        <button class="button-square-secondary-1" @click="$dispatch('close-modal')" >Cancel</button>
                         <button class="button-square-main-1" @click="savePhotoHandler('profile')">Save</button>
                     </div>
                 @endslot
@@ -120,18 +117,30 @@
 @push('scripts')
     <script>
         document.addEventListener("alpine:init", () => {
-            Alpine.data("HeaderData", () => ({
+            Alpine.data("HeaderData", ($wire) => ({
+                init() {
+                    window.addEventListener("livewire-upload-finish", () => {
+                        this.uploadingError = $wire.uploading_error;
+                        this.isReadyToUpload = ($wire.cover_photo !== null || $wire.profile_photo !== null) && !this.uploadingError;
+                    });
+                    window.addEventListener("coverUploaded", this.updatedPhotoHandler)
+                    window.addEventListener("profilePicUploaded", this.updatedPhotoHandler);
+                    window.addEventListener("close-modal", this.cancelUpload);
+                },
                 showProfilePicEditBtn: false,
                 uploadingError: false,
-                cancelProfilePic() {
-                    this.$dispatch('close-modal');
+                isReadyToUpload: false,
+                cancelUpload() {
                     this.uploadingError = false;
+                    this.isReadyToUpload = false;
+                    $wire.resetProfilePic();
+                    $wire.resetCoverPic();
                 },
                 savePhotoHandler(type) {
                     const form = type === "cover" ? document.getElementById("update-cover-pic-form") :
                         document.getElementById("update-profile-pic-form")
 
-                    if (!this.uploadingError) {
+                    if (this.uploadingError) {
                         return Notiflix.Report.failure(
                             `Error saving ${type} picture`,
                             "<p class='text-center'>Please upload the image in proper format and size.</p>",
@@ -139,6 +148,13 @@
                         );
                     }
 
+                    if (!this.isReadyToUpload) {
+                        return Notiflix.Report.info(
+                            "Uploading not yet ready",
+                            "<p class='text-center'>Please upload an image then wait for the preview before saving.</p>",
+                            "Okay"
+                        );
+                    }
 
                     Notiflix.Confirm.show(
                         "Attention!",
@@ -151,35 +167,31 @@
                         },
                         () => null, {}
                     );
+                },
+                updatedPhotoHandler(event) {
+                    const {
+                        status,
+                        message
+                    } = event.detail[0];
+
+                    Notiflix.Loading.remove();
+
+                    // Dispatch Alpine event manually from global scope
+                    document.dispatchEvent(new CustomEvent("close-modal", {
+                        bubbles: true
+                    }));
+
+                    if (status === "success") {
+                        Notiflix.Notify.success(message, {
+                            position: "right-bottom"
+                        });
+                    } else {
+                        Notiflix.Notify.failure(message, {
+                            position: "right-bottom"
+                        });
+                    }
                 }
             }))
         });
-
-        const updatedPhotoHandler = (event) => {
-            const {
-                status,
-                message
-            } = event.detail[0];
-
-            Notiflix.Loading.remove();
-
-            // Dispatch Alpine event manually from global scope
-            document.dispatchEvent(new CustomEvent("close-modal", {
-                bubbles: true
-            }));
-
-            if (status === "success") {
-                Notiflix.Notify.success(message, {
-                    position: "right-bottom"
-                });
-            } else {
-                Notiflix.Notify.failure(message, {
-                    position: "right-bottom"
-                });
-            }
-        }
-
-        window.addEventListener("coverUploaded", updatedPhotoHandler)
-        window.addEventListener("profilePicUploaded", updatedPhotoHandler);
     </script>
 @endpush

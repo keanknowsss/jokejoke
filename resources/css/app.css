@@ -115,6 +115,13 @@ input[type="file"] {
     background: white;
     color: black;
 }
+.button-square-main-1:disabled {
+    background: rgb(31, 31, 31);
+    color: white;
+}
+.button-square-main-1:disabled:hover {
+    background: var(--black-1);
+}
 
 .button-square-secondary-1 {
     background: var(--gray-2);
