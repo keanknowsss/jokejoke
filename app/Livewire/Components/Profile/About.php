@@ -75,8 +75,6 @@ class About extends Component
         $this->birthdate = $this->original_values['birthdate'];
 
         $this->bio = $this->original_values['bio'];
-
-        // $this->loadUserData();
     }
 
     public function update()
@@ -87,7 +85,7 @@ class About extends Component
         $modified = collect($this->original_values)->filter(fn($value, $key) => $this->$key !== $value);
 
         if ($modified->isEmpty()) {
-            return $this->dispatch('updated', [
+            return $this->dispatch('updatedAbout', [
                 'status' => 'empty',
                 'message' => 'No information were modified.'
             ]);
@@ -112,13 +110,20 @@ class About extends Component
 
             DB::commit();
 
-            $this->loadUserData();
+
+            $this->original_values = [
+                'username' => $this->username,
+                'first_name' => $this->first_name,
+                'last_name' => $this->last_name,
+                'email' => $this->email,
+                'birthdate' => $this->birthdate,
+                'bio' => $this->bio
+            ];
 
             $this->dispatch('updatedAbout', [
                 'status' => 'success',
                 'message' => 'User Information successfully saved!'
             ]);
-
         } catch (\Throwable $th) {
             DB::rollBack();
 
@@ -129,31 +134,6 @@ class About extends Component
         }
     }
 
-    public function loadUserData()
-    {
-        $user = auth()->user()->refresh();
-
-        $this->original_values = [
-            'username' => $user->username,
-            'first_name' => $user->first_name,
-            'last_name' => $user->last_name,
-            'email' => $user->email,
-            'birthdate' => $user->profile->birthdate,
-            'bio' => $user->profile->bio ?? ""
-        ];
-
-        $this->username = $this->original_values['username'];
-
-        $this->date_joined = Carbon::parse(auth()->user()->created_at)->format('F j, Y');
-
-        $this->first_name = $this->original_values['first_name'];
-        $this->last_name = $this->original_values['last_name'];
-
-        $this->email = $this->original_values['email'];
-        $this->birthdate = $this->original_values['birthdate'];
-
-        $this->bio = $this->original_values['bio'];
-    }
 
     public function render()
     {

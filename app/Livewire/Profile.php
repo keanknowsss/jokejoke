@@ -18,15 +18,18 @@ class Profile extends Component
 
     public User $user;
 
-    public function mount(int $user_id) {
+    public function mount(int $user_id)
+    {
         $user = User::find($user_id);
 
-        if (!$user) return redirect('/');
+        if (!$user)
+            return redirect('/');
 
         $this->user = $user;
     }
 
     // #[On('updatedAbout')]
+    #[On('profilePicUploaded')]
     #[Computed()]
     public function profile()
     {

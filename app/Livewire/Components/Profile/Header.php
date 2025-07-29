@@ -51,13 +51,6 @@ class Header extends Component
         $this->has_cover_pic = $cover_pic ? true : false;
     }
 
-
-    public function fetchUserData()
-    {
-        $this->username = auth()->user()->username;
-        $this->name = auth()->user()->first_name . ' ' . auth()->user()->last_name;
-    }
-
     public function uploadCoverPic()
     {
         $this->validateOnly('cover_photo');
@@ -66,11 +59,15 @@ class Header extends Component
         DB::beginTransaction();
 
         try {
+            $cover_pic_path = $this->cover_photo->store("uploads/user/{$user->id}", 'public');
+
             $user->profile->update([
-                'cover_pic_path' => $this->cover_photo->store("uploads/user/{$user->id}", 'public')
+                'cover_pic_path' => $cover_pic_path
             ]);
 
             DB::commit();
+
+            $this->cover_photo_link = Storage::url($cover_pic_path);
 
             $this->dispatch('coverUploaded', [
                 'status' => 'success',
@@ -114,11 +111,15 @@ class Header extends Component
         DB::beginTransaction();
 
         try {
+            $profile_pic_path = $this->profile_photo->store("uploads/user/{$user->id}", 'public');
+
             $user->profile->update([
-                'profile_pic_path' => $this->profile_photo->store("uploads/user/{$user->id}", 'public')
+                'profile_pic_path' => $profile_pic_path
             ]);
 
             DB::commit();
+
+            $this->profile_photo_link = Storage::url($profile_pic_path);
 
             $this->dispatch('profilePicUploaded', [
                 'status' => 'success',
@@ -137,6 +138,7 @@ class Header extends Component
         $this->reset('profile_photo');
     }
 
+
     public function resetProfilePic() {
         $this->resetValidation(['profile_photo']);
         $this->reset('profile_photo');
@@ -145,6 +147,17 @@ class Header extends Component
     public function resetCoverPic() {
         $this->resetValidation(['cover_photo']);
         $this->reset('cover_photo');
+    }
+
+    #[On('updatedAbout')]
+    public function refreshHeaderText($param)
+    {
+        $status = $param['status'];
+
+        if ($status !== 'success') return;
+
+        $this->username = auth()->user()->username;
+        $this->name = auth()->user()->selectRaw('CONCAT(first_name, " ", last_name) as name')->first()->name;
     }
 
     public function render()

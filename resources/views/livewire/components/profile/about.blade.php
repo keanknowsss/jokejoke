@@ -139,6 +139,10 @@
                 Notiflix.Notify.info(message, {
                     position: "right-bottom"
                 });
+            } else if (status === "error") {
+                Notiflix.Notify.failure(message, {
+                    position: "right-bottom"
+                });
             }
 
         });
