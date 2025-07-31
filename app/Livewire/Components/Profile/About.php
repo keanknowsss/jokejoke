@@ -27,6 +27,8 @@ class About extends Component
     public ?string $bio = '';
     public array $original_values = [];
 
+    public bool $has_profile = true;
+
     public function rules()
     {
         return [
@@ -52,7 +54,8 @@ class About extends Component
         string $email,
         string|null $birthdate,
         string|null $bio,
-        string $date_joined
+        string $date_joined,
+        bool $has_profile
     ) {
         $this->user_id = $user_id;
 
@@ -75,6 +78,8 @@ class About extends Component
         $this->birthdate = $this->original_values['birthdate'];
 
         $this->bio = $this->original_values['bio'];
+
+        $this->has_profile = $has_profile;
     }
 
     public function update()
@@ -110,6 +115,8 @@ class About extends Component
 
             DB::commit();
 
+            if (!$this->has_profile)
+                $this->has_profile = true;
 
             $this->original_values = [
                 'username' => $this->username,

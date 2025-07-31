@@ -35,6 +35,11 @@ class PostForm extends Component
     //     ];
     // }
 
+    public function mount()
+    {
+        $this->profile_pic = auth()->user()->profile?->profile_pic_path ? Storage::url(auth()->user()->profile->profile_pic_path) : asset('assets/placeholders/user_avatar.png');
+    }
+
     public function messages()
     {
         return [

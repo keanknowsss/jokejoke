@@ -18,6 +18,10 @@ class Profile extends Component
 
     public User $user;
 
+    public string $displayed_section = 'jokes';
+
+    public bool $has_profile = true;
+
     public function mount(int $user_id)
     {
         $user = User::find($user_id);
@@ -25,7 +29,13 @@ class Profile extends Component
         if (!$user)
             return redirect('/');
 
+        if (!auth()->user()->profile) {
+            $this->displayed_section = 'about';
+        }
+
         $this->user = $user;
+
+        $this->has_profile = auth()->user()->profile ? true : false;
     }
 
     // #[On('updatedAbout')]

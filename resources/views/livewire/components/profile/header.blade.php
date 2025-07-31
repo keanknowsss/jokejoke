@@ -1,30 +1,46 @@
 <div class="profile-header-container" x-data="HeaderData($wire)" x-init="init()">
     <div class="cover-container">
         <div class="cover-photo-container"
-            @click="$wire.dispatch('open-image-viewer', {category: 'cover', category_id: null, id: {{ auth()->user()->id }}})">
+            @if ($has_profile_pic) @click="$wire.dispatch('open-image-viewer', {category: 'cover', category_id: null, id: {{ auth()->user()->id }}})">
+            @else
+                @click="$dispatch('open-modal', {  name: 'update-cover' })" @endif
             <img src="{{ $cover_photo_link }}" alt="cover-photo">
         </div>
         <button @click="$dispatch('open-modal', {  name: 'update-cover' })" x-ref="myButton"><i
                 class="fa-solid fa-pen"></i></button>
 
         <x-modal name="update-cover" title="Update Cover Photo">
-            <div class="update-cover-img-container cursor-pointer !mt-2">
-                <div wire:loading wire:target="cover_photo" class="loading-container-backdrop">
-                    <div class="loading-container">
-                        <x-loader size="50" />
-                        <p class="text-center text-white"> Loading...</p>
+            @if ($has_cover_pic || $cover_photo)
+                <div class="update-cover-img-container">
+                    <div wire:loading wire:target="cover_photo" class="loading-container-backdrop">
+                        <div class="loading-container">
+                            <x-loader size="50" />
+                            <p class="text-center text-white"> Loading...</p>
+                        </div>
+                    </div>
+
+                    @if ($cover_photo && !$errors->has('cover_photo'))
+                        <img src="{{ $cover_photo->temporaryUrl() }}"alt="cover-photo"
+                            @click="$refs.coverFileInput.click()">
+                    @else
+                        <img src="{{ $cover_photo_link }}" alt="cover-photo" @click="$refs.coverFileInput.click()">
+                    @endif
+
+                </div>
+            @else
+                <div class="update-cover-img-container" wire:loading wire:target="cover_photo">
+                    <div wire:loading wire:target="cover_photo" class="loading-container-backdrop">
+                        <div class="loading-container">
+                            <x-loader size="50" />
+                            <p class="text-center text-white"> Loading...</p>
+                        </div>
                     </div>
                 </div>
-
-
-                @if ($cover_photo && !$errors->has('cover_photo'))
-                    <img src="{{ $cover_photo->temporaryUrl() }}"alt="cover-photo"
-                        @click="$refs.coverFileInput.click()">
-                @else
-                    <img src="{{ Storage::url(auth()->user()->profile->cover_pic_path) }}" alt="cover-photo"
-                        @click="$refs.coverFileInput.click()">
-                @endif
-            </div>
+                <div class="p-3 border border-black border-solid text-center rounded-lg cursor-pointer"
+                    @click="$refs.coverFileInput.click()" wire:loading.class="hidden" wire:target="cover_photo">
+                    No Cover Photo Yet.
+                </div>
+            @endif
 
             <form class="mt-4 mb-2 px-1" wire:submit.prevent="uploadCoverPic" id="update-cover-pic-form">
                 <button type="button" class="button-square-main-2 w-full !py-3"
@@ -50,7 +66,9 @@
         <div class="profile-img-container" @mouseover="showProfilePicEditBtn = true"
             @mouseout="showProfilePicEditBtn = false">
             <div class="w-full h-full"
-                @click="$wire.dispatch('open-image-viewer', {category: 'profile', category_id: null, id: {{ auth()->user()->id }}})">
+                @if ($has_cover_pic) @click="$wire.dispatch('open-image-viewer', {category: 'profile', category_id: null, id: {{ auth()->user()->id }}})">
+                @else
+                    @click="$dispatch('open-modal', {  name: 'update-profile-pic' })" @endif
                 <img src="{{ $profile_photo_link }}" alt="profile-user">
             </div>
             <div class="edit-profile-img-btn-container" x-show="showProfilePicEditBtn" x-transition.50ms>
@@ -59,23 +77,39 @@
             </div>
 
             <x-modal name="update-profile-pic" title="Update Profile Photo">
-                <div class="update-profile-img-container cursor-pointer !mt-2">
-                    <div wire:loading wire:target="profile_photo" class="loading-container-backdrop">
-                        <div class="loading-container">
-                            <x-loader size="50" />
-                            <p class="text-center text-white"> Loading...</p>
+                @if ($has_profile_pic || $profile_photo)
+                    <div class="update-profile-img-container">
+                        <div wire:loading wire:target="profile_photo" class="loading-container-backdrop">
+                            <div class="loading-container">
+                                <x-loader size="50" />
+                                <p class="text-center text-white"> Loading...</p>
+                            </div>
+                        </div>
+
+
+                        @if ($profile_photo && !$errors->has('profile_photo'))
+                            <img src="{{ $profile_photo->temporaryUrl() }}"alt="profile-photo"
+                                @click="$refs.profilePicInput.click()">
+                        @else
+                            <img src="{{ $profile_photo_link }}" alt="profile-photo"
+                                @click="$refs.profilePicInput.click()">
+                        @endif
+                    </div>
+                @else
+                    <div class="update-profile-img-container aspect-square hidden" wire:loading.class.remove="hidden"
+                        wire:target="profile_photo">
+                        <div class="loading-container-backdrop">
+                            <div class="loading-container">
+                                <x-loader size="50" />
+                                <p class="text-center text-white"> Loading...</p>
+                            </div>
                         </div>
                     </div>
+                    <div wire:loading.class="hidden" wire:target="profile_photo"
+                        class="p-3 border border-black border-solid text-center rounded-lg cursor-pointer"
+                        @click="$refs.profilePicInput.click()">No Profile Photo Yet.</div>
+                @endif
 
-
-                    @if ($profile_photo && !$errors->has('profile_photo'))
-                        <img src="{{ $profile_photo->temporaryUrl() }}"alt="cover-photo"
-                            @click="$refs.coverFileInput.click()">
-                    @else
-                        <img src="{{ Storage::url(auth()->user()->profile->profile_pic_path) }}" alt="cover-photo"
-                            @click="$refs.profilePicInput.click()">
-                    @endif
-                </div>
 
                 <form class="mt-4 mb-2 px-1" id="update-profile-pic-form" wire:submit.prevent="uploadProfilePic">
                     <button type="button" class="button-square-main-2 w-full !py-3"
@@ -89,7 +123,7 @@
 
                 @slot('footer')
                     <div class="float-right flex gap-2">
-                        <button class="button-square-secondary-1" @click="$dispatch('close-modal')" >Cancel</button>
+                        <button class="button-square-secondary-1" @click="$dispatch('close-modal')">Cancel</button>
                         <button class="button-square-main-1" @click="savePhotoHandler('profile')">Save</button>
                     </div>
                 @endslot
@@ -121,7 +155,8 @@
                 init() {
                     window.addEventListener("livewire-upload-finish", () => {
                         this.uploadingError = $wire.uploading_error;
-                        this.isReadyToUpload = ($wire.cover_photo !== null || $wire.profile_photo !== null) && !this.uploadingError;
+                        this.isReadyToUpload = ($wire.cover_photo !== null || $wire
+                            .profile_photo !== null) && !this.uploadingError;
                     });
                     window.addEventListener("coverUploaded", this.updatedPhotoHandler)
                     window.addEventListener("profilePicUploaded", this.updatedPhotoHandler);
@@ -140,6 +175,16 @@
                     const form = type === "cover" ? document.getElementById("update-cover-pic-form") :
                         document.getElementById("update-profile-pic-form")
 
+                    const photoRef = type === 'cover' ? $wire.cover_photo : $wire.profile_photo;
+
+                    if (!photoRef) {
+                        return Notiflix.Report.failure(
+                            `Error saving ${type} picture`,
+                            `<p class='text-center'>Please upload a ${type} picture first</p>`,
+                            "Okay"
+                        );
+                    }
+
                     if (this.uploadingError) {
                         return Notiflix.Report.failure(
                             `Error saving ${type} picture`,
@@ -155,6 +200,7 @@
                             "Okay"
                         );
                     }
+
 
                     Notiflix.Confirm.show(
                         "Attention!",

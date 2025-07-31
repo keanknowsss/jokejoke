@@ -3,7 +3,7 @@
         <div class="post-input-container">
             <div>
                 <div class="xs-image-container border shadow">
-                    <img src="{{ Storage::url(auth()->user()->profile->profile_pic_path) }}" alt="user-post">
+                    <img src="{{ $profile_pic }}" alt="user-post">
                 </div>
             </div>
             <textarea name="post_content" id="post-content" value="{{ old('post_content') }}" placeholder="Make us laugh..."

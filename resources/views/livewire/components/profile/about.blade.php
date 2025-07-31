@@ -1,13 +1,15 @@
-<form id="about-container" class="about-container" wire:submit.prevent="update"
-    x-data="{
-        aboutEdit: false,
-        init() {
-            window.profileFormComponent = this
-        },
-        reset() {
-            this.aboutEdit = false
+<form id="about-container" class="about-container" wire:submit.prevent="update" x-data="{
+    aboutEdit: false,
+    init() {
+        window.profileFormComponent = this;
+        if (@json(!$has_profile)) {
+            this.aboutEdit = true;
         }
-    }" >
+    },
+    reset() {
+        this.aboutEdit = false
+    }
+}">
     <div class="about-info">
         <div class="flex justfy-between w-full">
             <div class="w-1/2 pr-5">
@@ -92,7 +94,9 @@
         </div>
         <div class="profile-edit-btn-container" x-show="aboutEdit" x-transition x-cloak>
             <button class="save-btn" @click="handleUpdateAbout" type="button">Save</button>
-            <button class="cancel-btn" @click="aboutEdit = false" type="button" wire:click="loadUserData()">Cancel</button>
+            @if ($has_profile)
+                <button class="cancel-btn" @click="aboutEdit = false" type="button" wire:click="loadUserData()">Cancel</button>
+            @endif
         </div>
     </div>
     <div>
@@ -105,6 +109,10 @@
         const userInformationForm = document.getElementById("about-container");
 
         function handleUpdateAbout() {
+            if (!userInformationForm.checkValidity()) {
+                return userInformationForm.reportValidity();
+            }
+
             Notiflix.Confirm.show(
                 "Attention!",
                 "Do you want to save the changes in your user information?",
@@ -112,7 +120,6 @@
                 "No",
                 () => {
                     Notiflix.Loading.standard("Saving changes. Please wait...");
-                    userInformationForm.requestSubmit();
                 },
                 () => null, {}
             )

@@ -5,7 +5,7 @@
 <div>
     @livewire('image-viewer')
 
-    <div class="profile-page-container" x-data="{ display: 'jokes' }">
+    <div class="profile-page-container" x-data="{ display: '{{ $displayed_section }}' }">
         @livewire('sidebar')
 
         <section class="profile-content">
@@ -15,10 +15,14 @@
                 'name' => $this->profile->name,
                 'profile_pic' => $this->profile->profile_pic_path,
                 'cover_pic' => $this->profile->cover_pic_path,
+                'has_profile' => $has_profile
             ])
-            <p class="profile-description">{{ auth()->user()->profile->bio }}</p>
+            <p class="profile-description">{{ $this->profile->bio }}</p>
             <div class="profile-btn-container">
-                <button :class="{ 'active': display === 'jokes' }" @click="display = 'jokes'">{{ $user->id === auth()->user()->id ? 'My Jokes' : 'Jokes' }}</button>
+                @if ($has_profile)
+                    <button :class="{ 'active': display === 'jokes' }"
+                        @click="display = 'jokes'">{{ $user->id === auth()->user()->id ? 'My Jokes' : 'Jokes' }}</button>
+                @endif
                 <button :class="{ 'active': display === 'about' }" @click="display = 'about'">About</button>
             </div>
             <hr class="divider">
@@ -42,7 +46,8 @@
                             'email' => $this->profile->email,
                             'birthdate' => $this->profile->birthdate,
                             'bio' => $this->profile->bio,
-                            'date_joined' => $this->profile->date_joined
+                            'date_joined' => $this->profile->date_joined,
+                            'has_profile' => $has_profile
                         ])
                     </div>
                 </div>
