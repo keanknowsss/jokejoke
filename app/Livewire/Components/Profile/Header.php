@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Reactive;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -17,8 +18,11 @@ class Header extends Component
     use WithFileUploads;
 
     public int $user_id;
+
+    #[Reactive]
     public string $username;
 
+    #[Reactive]
     public string $name;
 
     public string $profile_photo_link;
@@ -149,16 +153,6 @@ class Header extends Component
         $this->reset('cover_photo');
     }
 
-    #[On('updatedAbout')]
-    public function refreshHeaderText($param)
-    {
-        $status = $param['status'];
-
-        if ($status !== 'success') return;
-
-        $this->username = auth()->user()->username;
-        $this->name = auth()->user()->selectRaw('CONCAT(first_name, " ", last_name) as name')->first()->name;
-    }
 
     public function render()
     {

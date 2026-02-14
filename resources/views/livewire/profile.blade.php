@@ -17,7 +17,6 @@
                 'cover_pic' => $this->profile->cover_pic_path,
                 'has_profile' => $has_profile
             ])
-            <p class="profile-description">{{ $this->profile->bio }}</p>
             <div class="profile-btn-container">
                 @if ($has_profile)
                     <button :class="{ 'active': display === 'jokes' }"

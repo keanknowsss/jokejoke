@@ -15,9 +15,9 @@ class PostItem extends Component
 {
     public Post $post;
 
-    public $post_profile_pic;
+    public ?string $post_profile_pic;
 
-    public $user_profile_pic;
+    public ?string $user_profile_pic;
 
     #[Rule(['required', 'string'])]
     public string $text_content;
@@ -26,7 +26,13 @@ class PostItem extends Component
     {
         $this->text_content = $post->content;
         $this->post_profile_pic = $post->user->profile?->profile_pic_path ? Storage::url($post->user->profile->profile_pic_path) : asset('assets/placeholders/user_avatar.png');
-        $this->user_profile_pic = auth()->user()->profile?->profile_pic_path ? Storage::url(auth()->user()->profile->profile_pic_path) : asset('assets/placeholders/user_avatar.png');
+        $this->user_profile_pic = auth()->user()?->profile?->profile_pic_path ? Storage::url(auth()->user()->profile->profile_pic_path) : asset('assets/placeholders/user_avatar.png');
+    }
+
+    #[On('updatedAbout')]
+    public function updateUser()
+    {
+        $this->post->load('user');
     }
 
     #[On('profilePicUploaded')]

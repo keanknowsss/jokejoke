@@ -120,6 +120,7 @@
                 "No",
                 () => {
                     Notiflix.Loading.standard("Saving changes. Please wait...");
+                    userInformationForm.requestSubmit();
                 },
                 () => null, {}
             )

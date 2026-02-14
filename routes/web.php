@@ -13,10 +13,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [FeedController::class, 'index'])->name('home');
 
-Route::fallback(function () {
-    return redirect()->route('home');
-});
-
 Route::middleware(['guest'])->group(function () {
     Route::get('/sign-in', [AuthController::class, 'create'])
         ->name('user.sign-in');
@@ -36,8 +32,9 @@ Route::middleware(['auth'])->group(function () {
         ->name('user.logout');
 });
 
-
-
+Route::fallback(function () {
+    return redirect()->route('home');
+});
 
 
 Route::get('/clear-cache', function () {

@@ -12,6 +12,7 @@ class Sidebar extends Component
     public $username;
     public $profile_pic;
 
+    #[On('updatedAbout')]
     public function mount() {
         $user = auth()->user();
 

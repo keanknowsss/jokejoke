@@ -96,9 +96,9 @@ class About extends Component
             ]);
         }
 
+        DB::beginTransaction();
 
         try {
-            DB::beginTransaction();
 
             auth()->user()->update([
                 'first_name' => $this->first_name,
@@ -107,11 +107,18 @@ class About extends Component
                 'username' => $this->username,
             ]);
 
-            auth()->user()->profile->update([
-                'birthdate' => $this->birthdate,
-                'bio' => $this->bio,
-            ]);
-
+            if (!$this->has_profile) {
+                Profile::create([
+                    'user_id' => auth()->id(),
+                    'birthdate' => $this->birthdate,
+                    'bio' => $this->bio,
+                ]);
+            } else {
+                auth()->user()->profile->update([
+                    'birthdate' => $this->birthdate,
+                    'bio' => $this->bio,
+                ]);
+            }
 
             DB::commit();
 
@@ -132,6 +139,7 @@ class About extends Component
                 'message' => 'User Information successfully saved!'
             ]);
         } catch (\Throwable $th) {
+            \Log::error($th);
             DB::rollBack();
 
             $this->dispatch('updatedAbout', [

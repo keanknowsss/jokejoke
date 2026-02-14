@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\DB;
 #[Title('Profile')]
 class Profile extends Component
 {
-
     public User $user;
 
     public string $displayed_section = 'jokes';
@@ -38,7 +37,12 @@ class Profile extends Component
         $this->has_profile = auth()->user()->profile ? true : false;
     }
 
-    // #[On('updatedAbout')]
+    #[On('updatedAbout')]
+    public function resetProfileData() {
+        unset($this->profile);
+        $this->has_profile = auth()->user()->profile ? true : false;
+    }
+
     #[On('profilePicUploaded')]
     #[Computed()]
     public function profile()

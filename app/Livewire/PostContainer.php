@@ -14,6 +14,7 @@ class PostContainer extends Component
 
     public Collection $posts;
 
+    #[On('updatedAbout')]
     #[On('postSaved')]
     #[On('postDeleted')]
     #[On('postUpdated')]
