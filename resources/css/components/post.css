@@ -336,3 +336,8 @@ p.more-image-number {
     border: 1px solid black;
     opacity: 0.9;
 }
+
+.active-react {
+    color: var(--yellow-1);
+    text-shadow: yellow 0px 0px 10px;
+}

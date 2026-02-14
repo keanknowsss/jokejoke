@@ -145,7 +145,7 @@
     @auth()
         <div class="other-post-buttons-container">
             {{-- buttons --}}
-            <button><i class="fa-regular fa-face-laugh-squint"></i> <span class="text-sm">Haha</span></button>
+            <button wire:click="handleLike" class="{{ $hasLiked ? 'active-react' : '' }}"><i class="fa-regular fa-face-laugh-squint"></i> <span class="text-sm">Haha</span></button>
             <button><i class="fa-regular fa-comment"></i> <span class="text-sm">Comment</span></button>
             <button><i class="fa-solid fa-share"></i> <span class="text-sm">Share</span></button>
         </div>

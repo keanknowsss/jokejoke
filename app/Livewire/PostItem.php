@@ -15,6 +15,8 @@ class PostItem extends Component
 {
     public Post $post;
 
+    public bool $hasLiked = false;
+
     public ?string $post_profile_pic;
 
     public ?string $user_profile_pic;
@@ -24,6 +26,11 @@ class PostItem extends Component
 
     public function mount(Post $post)
     {
+        $this->hasLiked = $post->reacts()
+            ->allActive()
+            ->where('user_id', auth()->id())
+            ->exists();
+
         $this->text_content = $post->content;
         $this->post_profile_pic = $post->user->profile?->profile_pic_path ? Storage::url($post->user->profile->profile_pic_path) : asset('assets/placeholders/user_avatar.png');
         $this->user_profile_pic = auth()->user()?->profile?->profile_pic_path ? Storage::url(auth()->user()->profile->profile_pic_path) : asset('assets/placeholders/user_avatar.png');
@@ -108,7 +115,53 @@ class PostItem extends Component
         }
     }
 
+    public function handleLike()
+    {
+        // check if a like is existing
+        $userReact = $this->post->reacts()
+            ->where('user_id', auth()->id())
+            ->first();
+
+        DB::beginTransaction();
+        try {
+            if ($userReact) {
+                // toggles
+                $userReact->is_active = !$userReact->is_active;
+                $userReact->save();
+            } else {
+                $this->post->reacts()->create([
+                    'user_id' => auth()->id(),
+                ]);
+            }
+
+            $this->hasLiked = !$this->hasLiked;
+
+            // Todo: move to events
+            if ($this->hasLiked) {
+                $this->post->increment('like_count');
+            } else {
+                $this->post->decrement('like_count');
+            }
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            \Log::error($th);
+            DB::rollBack();
+        }
+    }
+
     public function render()
+    {
+        $time_difference_text = $this->getTimeDifferenceText();
+
+        return view('livewire.post-item', [
+            'time_posted' => $time_difference_text,
+            'file' => $this->post->attachments()->where('file_type', 'file')->first(),
+            'images' => $this->post->attachments()->where('file_type', 'image')->get()
+        ]);
+    }
+
+    private function getTimeDifferenceText()
     {
         $time_posted = Carbon::parse($this->post->created_at);
 
@@ -131,10 +184,6 @@ class PostItem extends Component
 
         $time_difference_text = floor($time_difference) . ' ' . $unit;
 
-        return view('livewire.post-item', [
-            'time_posted' => $time_difference_text,
-            'file' => $this->post->attachments()->where('file_type', 'file')->first(),
-            'images' => $this->post->attachments()->where('file_type', 'image')->get()
-        ]);
+        return $time_difference_text;
     }
 }
