@@ -6,6 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -48,11 +50,67 @@ class User extends Authenticatable
         ];
     }
 
-    public function profile() {
+    public function getNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function getProfilePicAttribute()
+    {
+        return $this->profile?->profile_pic_path ?
+            Storage::url($this->profile->profile_pic_path) :
+            asset('assets/placeholders/user_avatar.png');
+    }
+
+    public function getCoverPicAttribute()
+    {
+        return $this->profile?->cover_pic_path ?
+            Storage::url($this->profile->cover_pic_path) :
+            asset('assets/placeholders/user_cover.jpg');
+    }
+
+    public function profile()
+    {
         return $this->hasOne(Profile::class);
     }
 
-    public function posts() {
+    public function posts()
+    {
         return $this->hasMany(Post::class);
+    }
+
+    public function follow(User $userFollowing)
+    {
+        DB::transaction(function () use ($userFollowing) {
+            $this->followers()->create([
+                'follower_id' => $userFollowing->id
+            ]);
+
+            if ($this->summary()->exists()) {
+                $this->summary()->increment('following_count');
+            } else {
+                $this->summary()->create([
+                    'following_count' => 1
+                ]);
+            }
+
+            if ($userFollowing->summary()->exists()) {
+                $userFollowing->summary()->increment('follower_count');
+            } else {
+                $userFollowing->summary()->create([
+                    'follower_count' => 1
+                ]);
+            }
+        });
+    }
+
+    public function followers()
+    {
+        return $this->hasMany(Follower::class);
+    }
+
+    public function summary()
+    {
+        return $this->hasOne(UserSummary::class);
     }
 }

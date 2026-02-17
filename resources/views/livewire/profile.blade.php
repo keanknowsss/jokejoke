@@ -50,22 +50,7 @@
                         ])
                     </div>
                 </div>
-                <div class="suggestions-bar">
-                    @for ($i = 0; $i < 5; $i++)
-                        <div class="follow-user-container">
-                            <div class="follow-user-info">
-                                <div class="sm-image-container">
-                                    <img src="https://picsum.photos/42" alt="user-name">
-                                </div>
-                                <div>
-                                    <p class="font-bold other-name">Lorem Ipsum</p>
-                                    <p class="font-light other-username">@username</p>
-                                </div>
-                            </div>
-                            <button>Follow</button>
-                        </div>
-                    @endfor
-                </div>
+                @livewire('user-suggestion')
             </div>
         </section>
     </div>

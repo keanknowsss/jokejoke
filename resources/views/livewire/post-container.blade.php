@@ -1,7 +1,12 @@
 <div class="feed-content-container {{ auth()->check() ? 'feed-content-container-padding' : '' }}">
-    @foreach ($posts as $index => $post)
-        @livewire('post-item', ['post' => $post], key($post->id))
-    @endforeach
+    @if ($posts->count() > 0)
+        @foreach ($posts as $index => $post)
+            @livewire('post-item', ['post' => $post], key($post->id))
+        @endforeach
+    @else
+        <p class="text-gray-500 text-center">No post found.</p>
+    @endif
+
 </div>
 
 @push('scripts')
