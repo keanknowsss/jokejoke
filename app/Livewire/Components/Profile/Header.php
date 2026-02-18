@@ -6,9 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
-use Livewire\Attributes\Reactive;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -19,16 +17,10 @@ class Header extends Component
 
     public int $user_id;
 
-    #[Reactive]
-    public string $username;
-
-    #[Reactive]
-    public string $name;
+    public User $user;
 
     public string $profile_photo_link;
-    public bool $has_profile_pic;
     public string $cover_photo_link;
-    public bool $has_cover_pic;
 
     #[Rule(['required', 'image', 'max:5120'])]
     public $cover_photo;
@@ -39,20 +31,8 @@ class Header extends Component
 
     public function mount(
         int $user_id,
-        string $username,
-        string $name,
-        string|null $profile_pic,
-        string|null $cover_pic
     ) {
-        $this->user_id = $user_id;
-        $this->username = $username;
-        $this->name = $name;
-
-        $this->profile_photo_link = $profile_pic ? Storage::url($profile_pic) : asset('assets/placeholders/user_avatar.png');
-        $this->has_profile_pic = $profile_pic ? true : false;
-
-        $this->cover_photo_link = $cover_pic ? Storage::url($cover_pic) : asset('assets/placeholders/user_cover.jpg');
-        $this->has_cover_pic = $cover_pic ? true : false;
+        $this->user = User::with(['profile', 'summary'])->find($user_id);
     }
 
     public function uploadCoverPic()
@@ -153,6 +133,12 @@ class Header extends Component
         $this->reset('cover_photo');
     }
 
+    #[On('updatedAbout')]
+    public function refreshUserData()
+    {
+        $this->user->refresh();
+        $this->user->load('profile');
+    }
 
     public function render()
     {

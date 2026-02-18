@@ -1,16 +1,16 @@
 <div class="profile-header-container" x-data="HeaderData($wire)" x-init="init()">
     <div class="cover-container">
         <div class="cover-photo-container"
-            @if ($has_profile_pic) @click="$wire.dispatch('open-image-viewer', {category: 'cover', category_id: null, id: {{ auth()->user()->id }}})">
+            @if ($user->profile?->cover_pic_path) @click="$wire.dispatch('open-image-viewer', {category: 'cover', category_id: null, id: {{ auth()->user()->id }}})">
             @else
                 @click="$dispatch('open-modal', {  name: 'update-cover' })" @endif
-            <img src="{{ $cover_photo_link }}" alt="cover-photo">
+            <img src="{{ $user->cover_pic }}" alt="cover-photo">
         </div>
         <button @click="$dispatch('open-modal', {  name: 'update-cover' })" x-ref="myButton"><i
                 class="fa-solid fa-pen"></i></button>
 
         <x-modal name="update-cover" title="Update Cover Photo">
-            @if ($has_cover_pic || $cover_photo)
+            @if ($user->profile?->profile_pic_path || $user->profile?->cover_pic_path)
                 <div class="update-cover-img-container">
                     <div wire:loading wire:target="cover_photo" class="loading-container-backdrop">
                         <div class="loading-container">
@@ -23,7 +23,7 @@
                         <img src="{{ $cover_photo->temporaryUrl() }}"alt="cover-photo"
                             @click="$refs.coverFileInput.click()">
                     @else
-                        <img src="{{ $cover_photo_link }}" alt="cover-photo" @click="$refs.coverFileInput.click()">
+                        <img src="{{ $user->cover_pic }}" alt="cover-photo" @click="$refs.coverFileInput.click()">
                     @endif
 
                 </div>
@@ -66,10 +66,10 @@
         <div class="profile-img-container" @mouseover="showProfilePicEditBtn = true"
             @mouseout="showProfilePicEditBtn = false">
             <div class="w-full h-full"
-                @if ($has_cover_pic) @click="$wire.dispatch('open-image-viewer', {category: 'profile', category_id: null, id: {{ auth()->user()->id }}})">
+                @if ($user->profile?->profile_pic_path) @click="$wire.dispatch('open-image-viewer', {category: 'profile', category_id: null, id: {{ auth()->user()->id }}})">
                 @else
                     @click="$dispatch('open-modal', {  name: 'update-profile-pic' })" @endif
-                <img src="{{ $profile_photo_link }}" alt="profile-user">
+                <img src="{{ $user->profile_pic }}" alt="profile-user">
             </div>
             <div class="edit-profile-img-btn-container" x-show="showProfilePicEditBtn" x-transition.50ms>
                 <button class="edit-profile-img-btn"
@@ -77,7 +77,7 @@
             </div>
 
             <x-modal name="update-profile-pic" title="Update Profile Photo">
-                @if ($has_profile_pic || $profile_photo)
+                @if ($user->profile?->profile_pic_path || $profile_photo)
                     <div class="update-profile-img-container">
                         <div wire:loading wire:target="profile_photo" class="loading-container-backdrop">
                             <div class="loading-container">
@@ -91,7 +91,7 @@
                             <img src="{{ $profile_photo->temporaryUrl() }}"alt="profile-photo"
                                 @click="$refs.profilePicInput.click()">
                         @else
-                            <img src="{{ $profile_photo_link }}" alt="profile-photo"
+                            <img src="{{ $user->profile_pic }}" alt="profile-photo"
                                 @click="$refs.profilePicInput.click()">
                         @endif
                     </div>
@@ -132,13 +132,13 @@
 
         <div class="profile-text-container">
             <div class="flex flex-col">
-                <p class="profile-name">{{ $name }}
+                <p class="profile-name">{{ $user->name }}
                 </p>
-                <p class="profile-username">{{ '@' . $username }}</p>
+                <p class="profile-username">{{ '@' . $user->username }}</p>
             </div>
             <div class="flex flex-col">
-                <p><b>1.25k</b> Followers</p>
-                <p><b>1.25k</b> Following</p>
+                <p><b>{{ auth()->user()->summary?->follower_count ?? 0 }}</b> Followers</p>
+                <p><b>{{ auth()->user()->summary?->following_count ?? 0 }}</b> Following</p>
             </div>
         </div>
 

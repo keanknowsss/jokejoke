@@ -2,7 +2,7 @@
     aboutEdit: false,
     init() {
         window.profileFormComponent = this;
-        if (@json(!$has_profile)) {
+        if (@json(!$user->profile)) {
             this.aboutEdit = true;
         }
     },
@@ -15,7 +15,7 @@
             <div class="w-1/2 pr-5">
                 <div x-show="!aboutEdit">
                     <p class="font-bold">Username</p>
-                    <p>{{ $username }}</p>
+                    <p>{{ $user->username }}</p>
                 </div>
                 <div x-show="aboutEdit" x-cloak>
                     <x-form-label for="username" class="font-bold">Username</x-form-label>
@@ -39,7 +39,7 @@
         <div>
             <div x-show="!aboutEdit">
                 <p class="font-bold" x-show="!aboutEdit">Full Name</p>
-                <p>{{ $first_name . ' ' . $last_name }}</p>
+                <p>{{ $user->name }}</p>
             </div>
             <div class="flex justfy-between w-full" x-show="aboutEdit" x-cloak>
                 <div class="w-1/2 pr-5">
@@ -60,7 +60,7 @@
         <div>
             <div x-show="!aboutEdit">
                 <p class="font-bold">Birthday</p>
-                <p>{{ $birthdate }}</p>
+                <p>{{ $user->profile?->birthdate }}</p>
             </div>
             <div x-show="aboutEdit" x-cloak>
                 <x-form-label for="birthdate" class="font-bold">Birthday</x-form-label>
@@ -72,7 +72,7 @@
         <div>
             <div x-show="!aboutEdit">
                 <p class="font-bold">Email Address</p>
-                <p>{{ $email }}</p>
+                <p>{{ $user->email }}</p>
             </div>
             <div x-show="aboutEdit" x-cloak>
                 <x-form-label for="email" class="font-bold">Email Address</x-form-label>
@@ -84,7 +84,7 @@
         <div>
             <div x-show="!aboutEdit">
                 <p class="font-bold">Bio</p>
-                <p>{{ $bio }}</p>
+                <p>{{ $user->profile?->bio }}</p>
             </div>
             <div x-show="aboutEdit" x-cloak>
                 <x-form-label for="bio" class="font-bold">Bio</x-form-label>
@@ -94,7 +94,7 @@
         </div>
         <div class="profile-edit-btn-container" x-show="aboutEdit" x-transition x-cloak>
             <button class="save-btn" @click="handleUpdateAbout" type="button">Save</button>
-            @if ($has_profile)
+            @if ($user->profile)
                 <button class="cancel-btn" @click="aboutEdit = false" type="button" wire:click="loadUserData()">Cancel</button>
             @endif
         </div>

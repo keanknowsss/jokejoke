@@ -12,6 +12,9 @@ use Illuminate\Validation\Rule;
 class About extends Component
 {
     public int $user_id;
+
+    public User $user;
+
     public string $username = '';
 
     public string $first_name = '';
@@ -25,9 +28,8 @@ class About extends Component
     public string $email = '';
 
     public ?string $bio = '';
-    public array $original_values = [];
 
-    public bool $has_profile = true;
+    public array $original_values = [];
 
     public function rules()
     {
@@ -48,38 +50,30 @@ class About extends Component
 
     public function mount(
         int $user_id,
-        string $username,
-        string $first_name,
-        string $last_name,
-        string $email,
-        string|null $birthdate,
-        string|null $bio,
-        string $date_joined,
-        bool $has_profile
     ) {
+        $this->user = User::with('profile')->find($user_id);
+
         $this->user_id = $user_id;
 
         $this->original_values = [
-            'username' => $username,
-            'first_name' => $first_name,
-            'last_name' => $last_name,
-            'email' => $email,
-            'birthdate' => $birthdate,
-            'bio' => $bio
+            'username' => $this->user->username,
+            'first_name' => $this->user->first_name,
+            'last_name' => $this->user->last_name,
+            'email' => $this->user->email,
+            'birthdate' => $this->user->profile?->birthdate,
+            'bio' => $this->user->profile?->bio
         ];
-        $this->username = $this->original_values['username'];
-
-        $this->date_joined = Carbon::parse($date_joined)->format('F j, Y');
 
         $this->first_name = $this->original_values['first_name'];
         $this->last_name = $this->original_values['last_name'];
 
+        $this->username = $this->original_values['username'];
         $this->email = $this->original_values['email'];
         $this->birthdate = $this->original_values['birthdate'];
 
-        $this->bio = $this->original_values['bio'];
+        $this->date_joined = Carbon::parse($this->user->created_at)->format('F j, Y');
 
-        $this->has_profile = $has_profile;
+        $this->bio = $this->original_values['bio'];
     }
 
     public function update()
@@ -122,9 +116,6 @@ class About extends Component
 
             DB::commit();
 
-            if (!$this->has_profile)
-                $this->has_profile = true;
-
             $this->original_values = [
                 'username' => $this->username,
                 'first_name' => $this->first_name,
@@ -133,6 +124,9 @@ class About extends Component
                 'birthdate' => $this->birthdate,
                 'bio' => $this->bio
             ];
+
+            $this->user->refresh();
+            $this->user->load('profile');
 
             $this->dispatch('updatedAbout', [
                 'status' => 'success',
