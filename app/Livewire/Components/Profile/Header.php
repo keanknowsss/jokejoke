@@ -140,6 +140,34 @@ class Header extends Component
         $this->user->load('profile');
     }
 
+    public function handleFollow()
+    {
+        if (auth()->id() === $this->user->id) {
+            return;
+        }
+
+        auth()->user()->follow($this->user);
+
+        $this->dispatch('userFollowed', [
+            'status' => 'success',
+            'message' => "{$this->user->first_name} followed successfully!"
+        ]);
+    }
+
+    public function handleUnfollow()
+    {
+        if (auth()->id() === $this->user->id) {
+            return;
+        }
+
+        auth()->user()->unfollow($this->user);
+
+        $this->dispatch('userFollowed', [
+            'status' => 'success',
+            'message' => "{$this->user->first_name} unfollowed successfully!"
+        ]);
+    }
+
     public function render()
     {
         return auth()->user()->id === $this->user_id ?

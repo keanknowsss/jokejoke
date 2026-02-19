@@ -186,7 +186,6 @@
     padding-inline: 4rem;
     width: 100%;
     gap: 1rem;
-    pointer-events: none;
 
 }
 
@@ -194,8 +193,7 @@
     display: flex;
     flex: 1;
     justify-content: space-between;
-    align-items: center;
-    margin-top: 5rem;
+    margin-top: 7rem;
 }
 
 .profile-content .profile-description {

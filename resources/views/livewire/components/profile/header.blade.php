@@ -136,7 +136,7 @@
                 </p>
                 <p class="profile-username">{{ '@' . $user->username }}</p>
             </div>
-            <div class="flex flex-col">
+            <div class="flex gap-7">
                 <p><b>{{ auth()->user()->summary?->follower_count ?? 0 }}</b> Followers</p>
                 <p><b>{{ auth()->user()->summary?->following_count ?? 0 }}</b> Following</p>
             </div>

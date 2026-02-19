@@ -106,14 +106,14 @@ input[type="file"] {
     color: white;
     padding: 0.4rem 1rem;
     border: 1px solid black;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
     transition: 0.1s all ease-in;
+    font-weight: 500;
 }
 
 .button-square-main-1:hover {
-    background: white;
-    color: black;
+    opacity: 0.8;
 }
 .button-square-main-1:disabled {
     background: rgb(31, 31, 31);
@@ -129,16 +129,17 @@ input[type="file"] {
     opacity: 0.9;
     padding: 0.4rem 1rem;
     border: 1px solid var(--gray-2);
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
     transition: 0.1s all ease-in;
+    font-weight: 500;
 }
 
 .button-square-main-2 {
     background: var(--blue-1);
     color: white;
     padding: 0.4rem 1rem;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
     transition: 0.1s all ease-in;
 }

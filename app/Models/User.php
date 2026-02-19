@@ -104,6 +104,16 @@ class User extends Authenticatable
         });
     }
 
+    public function unfollow(User $userFollowing)
+    {
+        DB::transaction(function () use ($userFollowing) {
+            $this->followers()->where('follower_id', $userFollowing->id)->delete();
+
+            $this->summary()->decrement('following_count');
+            $userFollowing->summary()->decrement('follower_count');
+        });
+    }
+
     public function followers()
     {
         return $this->hasMany(Follower::class);
@@ -113,4 +123,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserSummary::class);
     }
+
+    public function isFollowing(User $user)
+    {
+        return $this->followers()->where('follower_id', $user->id)->exists();
+    }
+
 }
