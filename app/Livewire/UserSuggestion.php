@@ -18,7 +18,7 @@ class UserSuggestion extends Component
 
         auth()->user()->follow($user);
 
-        $this->dispatch('userFollowed', [
+        $this->dispatch('followUpdate', [
             'status' => 'success',
             'message' => "{$user->first_name} followed successfully!"
         ]);

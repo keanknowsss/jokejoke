@@ -32,7 +32,20 @@
 <body>
     {{ $slot }}
 
+    <script>
+        document.addEventListener("livewire:init", () => {
+            Livewire.on("followUpdate", (e) => {
+                const { status, message } = e[0];
 
+                console.log(e);
+                if (status === "success") {
+                    Notiflix.Notify.success(message, {
+                        position: "right-bottom"
+                    });
+                }
+            });
+        })
+    </script>
     @stack('scripts')
 
     @livewireScripts

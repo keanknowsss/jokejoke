@@ -148,7 +148,7 @@ class Header extends Component
 
         auth()->user()->follow($this->user);
 
-        $this->dispatch('userFollowed', [
+        $this->dispatch('followUpdate', [
             'status' => 'success',
             'message' => "{$this->user->first_name} followed successfully!"
         ]);
@@ -162,7 +162,7 @@ class Header extends Component
 
         auth()->user()->unfollow($this->user);
 
-        $this->dispatch('userFollowed', [
+        $this->dispatch('followUpdate', [
             'status' => 'success',
             'message' => "{$this->user->first_name} unfollowed successfully!"
         ]);

@@ -8,7 +8,8 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;700&display=swap"
+        rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
@@ -17,8 +18,10 @@
     <link rel="shortcut icon" href="{{ asset('assets/favicons/favicon.ico') }}" type="image/x-icon">
     <link rel="icon" href="{{ asset('assets/favicons/favicon-16x16.png') }}" sizes="16x16" type="image/png">
     <link rel="icon" href="{{ asset('assets/favicons/favicon-32x32.png') }}" sizes="32x32" type="image/png">
-    <link rel="icon" href="{{ asset('assets/favicons/android-chrome-192x192.png') }}" sizes="192x192" type="image/png">
-    <link rel="icon" href="{{ asset('assets/favicons/android-chrome-512x512.png') }}" sizes="512x512" type="image/png">
+    <link rel="icon" href="{{ asset('assets/favicons/android-chrome-192x192.png') }}" sizes="192x192"
+        type="image/png">
+    <link rel="icon" href="{{ asset('assets/favicons/android-chrome-512x512.png') }}" sizes="512x512"
+        type="image/png">
 
     @livewireStyles
 
@@ -32,6 +35,23 @@
 <body>
     @yield('content')
 
+    <script>
+        document.addEventListener("livewire:init", () => {
+            Livewire.on("followUpdate", (e) => {
+                const {
+                    status,
+                    message
+                } = e[0];
+
+                console.log(e);
+                if (status === "success") {
+                    Notiflix.Notify.success(message, {
+                        position: "right-bottom"
+                    });
+                }
+            });
+        })
+    </script>
     @livewireScripts
 
     @stack('scripts')
