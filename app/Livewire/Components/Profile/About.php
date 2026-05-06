@@ -143,6 +143,20 @@ class About extends Component
         }
     }
 
+    public function loadUserData()
+    {
+        $this->first_name = $this->original_values['first_name'];
+        $this->last_name = $this->original_values['last_name'];
+
+        $this->username = $this->original_values['username'];
+        $this->email = $this->original_values['email'];
+        $this->birthdate = $this->original_values['birthdate'];
+
+        $this->date_joined = Carbon::parse($this->user->created_at)->format('F j, Y');
+
+        $this->bio = $this->original_values['bio'];
+    }
+
 
     public function render()
     {
