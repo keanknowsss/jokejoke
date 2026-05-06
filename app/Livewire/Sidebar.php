@@ -17,7 +17,7 @@ class Sidebar extends Component
         $user = auth()->user();
 
         if ($user) {
-            $this->fullname = ucwords("$user->first_name $user->last_name");
+            $this->fullname = $user->name;
             $this->username = "@$user->username";
             $this->profile_pic = auth()->user()->profile?->profile_pic_path ? Storage::url(auth()->user()->profile->profile_pic_path) : asset('assets/placeholders/user_avatar.png');
         }

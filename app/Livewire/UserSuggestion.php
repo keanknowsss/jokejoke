@@ -2,34 +2,34 @@
 
 namespace App\Livewire;
 
+use App\Models\Follower;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class UserSuggestion extends Component
 {
     public Collection $users;
 
-    public function handleFollow(User $user)
+
+    #[On('followUpdate')]
+    public function refreshSuggestions()
     {
-        if (auth()->id() === $user->id) {
-            return;
-        }
+        $following = auth()->user()->following()->get()
+            ->pluck('follower_id')
+            ->toArray();
 
-        auth()->user()->follow($user);
-
-        $this->dispatch('followUpdate', [
-            'status' => 'success',
-            'message' => "{$user->first_name} followed successfully!"
-        ]);
+        $this->users = User::whereNot('id', auth()->id())
+            ->whereNotIn('id', $following)
+            ->limit(5)
+            ->inRandomOrder()
+            ->get();
     }
 
     public function mount()
     {
-        $this->users = User::whereNot('id', auth()->id())
-            ->limit(5)
-            ->inRandomOrder()
-            ->get();
+        $this->refreshSuggestions();
     }
 
     public function render()

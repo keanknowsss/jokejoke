@@ -37,7 +37,9 @@
                         ])
                     </div>
                 </div>
-                @livewire('user-suggestion')
+                <div class="profile-suggestions">
+                    @livewire('user-suggestion')
+                </div>
             </div>
         </section>
     </div>

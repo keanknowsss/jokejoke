@@ -18,6 +18,7 @@
     height: 100vh;
     width: 100vw;
     background: rgba(0, 0, 0, 0.4);
+    overflow: hidden;
 
     z-index: 1001;
 }
@@ -74,7 +75,7 @@
     flex: 1;
     overflow: auto;
     padding: 1.5rem;
-    padding-top: 0;
+    padding-top: 0.5rem;
 }
 
 .modal-footer {

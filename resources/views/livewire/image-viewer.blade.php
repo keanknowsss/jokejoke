@@ -2,41 +2,35 @@
     @vite('resources/css/components/image_viewer.css')
 @endpush
 
-<div class="image-display-container"
-    x-data="{
-        open: false,
-        loading: true,
-        images: [],
-        closeViewer() {
-            this.open = false;
-            document.body.style.overflow = 'auto';
-            setTimeout(() => this.loading = true, 300);
-        },
-        openViewer() {
-            this.open = true;
-            this.loading = true;
-            this.images = [];
-            document.body.style.overflow = 'hidden';
-
-            $nextTick(() => { $el.focus(); });
-        },
-        moveLeft() {
-            this.images.unshift(this.images.pop());
-        },
-        moveRight() {
-            this.images.push(this.images.shift());
-        }
-    }"
-    tabindex="0"
-    @keydown.left="moveLeft"
-    @keydown.right="moveRight",
-    @keydown.esc="closeViewer",
-    @click="closeViewer"
-    x-show="open"
-    @open-image-viewer.window="openViewer"
-    @image-loaded.window="loading = false; images = $wire.images;"
-    x-cloak
->
+<div class="image-display-container" x-data="{
+    open: false,
+    loading: true,
+    images: [],
+    closeViewer() {
+        this.open = false;
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+        setTimeout(() => this.loading = true, 300);
+    },
+    openViewer() {
+        this.open = true;
+        this.loading = true;
+        this.images = [];
+        {{-- hide scroll and adjust layout for scrollbar --}}
+        const sw = window.innerWidth - document.documentElement.clientWidth;
+        document.body.style.overflow = 'hidden';
+        document.body.style.paddingRight = sw + 'px';
+        $nextTick(() => { $el.focus(); });
+    },
+    moveLeft() {
+        this.images.unshift(this.images.pop());
+    },
+    moveRight() {
+        this.images.push(this.images.shift());
+    }
+}" tabindex="0" @keydown.left="moveLeft"
+    @keydown.right="moveRight", @keydown.esc="closeViewer", @click="closeViewer" x-show="open"
+    @open-image-viewer.window="openViewer" @image-loaded.window="loading = false; images = $wire.images;" x-cloak>
 
     <button class="hide-image-btn" @click="closeViewer">
         <i class="fa-solid fa-circle-xmark"></i>

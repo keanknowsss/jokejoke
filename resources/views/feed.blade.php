@@ -17,7 +17,9 @@
             @livewire('post-container')
         </main>
         @auth
-            @livewire('user-suggestion')
+            <div class="feed-suggestions">
+                @livewire('user-suggestion')
+            </div>
         @else
             <section class="link-container">
                 <div>
@@ -32,5 +34,4 @@
         @endauth
 
     </div>
-
 @endsection

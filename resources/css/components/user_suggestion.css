@@ -1,0 +1,61 @@
+.suggestions-bar {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.follow-user-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    padding: 0 2rem;
+}
+.follow-user-info {
+    display: flex;
+    gap: 10px;
+}
+.follow-user-container .other-name {
+    font-size: 14px;
+}
+.follow-user-container .other-username {
+    font-size: 11px;
+}
+
+.follow-user-container .follow-btn {
+    font-weight: bold;
+    font-size: 14px;
+    height: 100%;
+    background-color: white;
+    border: 2px solid var(--blue-2);
+    padding: 10px 25px;
+    color:  var(--blue-2);
+    border-radius: 25px;
+}
+
+.follow-user-container .follow-btn:hover {
+    opacity: 0.8;
+    background: var(--blue-2);
+    color: white;
+    transition: 0.2s all ease-in;
+}
+
+.follow-user-container .unfollow-btn {
+    font-weight: bold;
+    font-size: 14px;
+    height: 100%;
+    color: white;
+    border: 2px solid var(--blue-2);
+    padding: 10px 25px;
+    background-color: var(--blue-2);
+    border-radius: 25px;
+}
+
+.follow-user-container .unfollow-btn:hover {
+    opacity: 0.8;
+    color: var(--blue-2);
+    background-color: white;
+    transition: 0.2s all ease-in;
+}

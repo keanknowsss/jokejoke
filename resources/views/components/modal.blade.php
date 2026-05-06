@@ -4,8 +4,24 @@
     @vite('resources/css/components/modal.css')
 @endPushOnce
 
-<div class="modal-component" x-data="{ open: false, name: '{{ $name }}' }" @open-modal.window = "open = $event.detail.name === name"
-    @close-modal.window = "open = false" x-show="open" x-cloak>
+<div
+    class="modal-component"
+    x-data="{ open: false, name: '{{ $name }}' }"
+    @open-modal.window = "
+        if ($event.detail.name === name) {
+            open = true;
+            {{-- hide scroll and adjust layout for scrollbar --}}
+            const sw = window.innerWidth - document.documentElement.clientWidth;
+            document.body.style.overflow = 'hidden';
+            document.body.style.paddingRight = sw + 'px';
+        }
+    "
+    @close-modal.window = "
+        open = false;
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+    "
+    x-show="open" x-cloak>
     <div class="modal-backdrop" @click = "window.dispatchEvent(new CustomEvent('close-modal'))"></div>
 
     <div class="modal-container" x-show="open" x-transition>
