@@ -16,7 +16,6 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(User::class, 'follower_id')->constrained()->cascadeOnDelete();
-            $table->softDeletes();
             $table->timestamps();
         });
     }
