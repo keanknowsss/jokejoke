@@ -3,11 +3,10 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FeedController;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\RegisterController;
 
 use App\Livewire\Profile;
 
+use App\Livewire\Registration;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -19,10 +18,8 @@ Route::middleware(['guest'])->group(function () {
     Route::post('/sign-in', [AuthController::class, 'store'])
         ->name('user.sign-in.store');
 
-    Route::get('/register', [RegisterController::class, 'create'])
-        ->name('user.register.index');
-    Route::post('/register', [RegisterController::class, 'store'])
-        ->name('user.register.store');
+    Route::get('/register', Registration::class)
+        ->name('user.register');
 });
 
 Route::middleware(['auth'])->group(function () {

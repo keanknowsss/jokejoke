@@ -55,7 +55,7 @@
                         Sign up with Google</button>
                 </div>
 
-                <p class="redirect-register-container">Don't have an account? <a href="{{ route('user.register.index') }}">Register</a></p>
+                <p class="redirect-register-container">Don't have an account? <a href="{{ route('user.register') }}">Register</a></p>
             </form>
         </main>
     </div>

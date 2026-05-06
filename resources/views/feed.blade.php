@@ -28,7 +28,7 @@
                 </div>
                 <div>
                     <p>Create an account.</p>
-                    <a href="{{ route('user.register.index') }}" class="btn-link">Register</a>
+                    <a href="{{ route('user.register') }}" class="btn-link">Register</a>
                 </div>
             </section>
         @endauth

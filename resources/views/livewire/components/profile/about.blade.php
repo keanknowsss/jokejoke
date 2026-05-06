@@ -95,7 +95,7 @@
         <div class="profile-edit-btn-container" x-show="aboutEdit" x-transition x-cloak>
             <button class="save-btn" @click="handleUpdateAbout" type="button">Save</button>
             @if ($user->profile)
-                <button class="cancel-btn" @click="aboutEdit = false" type="button" wire:click="loadUserData()">Cancel</button>
+                <button class="cancel-btn" @click="aboutEdit = false" type="button" wire:click="loadUserData">Cancel</button>
             @endif
         </div>
     </div>
