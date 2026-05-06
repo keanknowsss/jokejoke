@@ -82,7 +82,7 @@ class User extends Authenticatable
     public function follow(User $userFollowing)
     {
         DB::transaction(function () use ($userFollowing) {
-            $this->followers()->create([
+            $this->following()->create([
                 'follower_id' => $userFollowing->id
             ]);
 
@@ -107,16 +107,35 @@ class User extends Authenticatable
     public function unfollow(User $userFollowing)
     {
         DB::transaction(function () use ($userFollowing) {
-            $this->followers()->where('follower_id', $userFollowing->id)->delete();
+            $this->following()->where('follower_id', $userFollowing->id)->delete();
 
             $this->summary()->decrement('following_count');
             $userFollowing->summary()->decrement('follower_count');
         });
     }
 
+    /**
+     * Get the followers of the user.
+     * Followers - users that followed the current user
+     * Use follower_id as foreign key
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function followers()
     {
-        return $this->hasMany(Follower::class);
+        return $this->hasMany(Follower::class, 'follower_id', 'id');
+    }
+
+    /**
+     * Get the users that the current user is following.
+     * Following - users that the current user has followed
+     * Use user_id as foreign key
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function following()
+    {
+        return $this->hasMany(Follower::class, 'user_id', 'id');
     }
 
     public function summary()
@@ -126,7 +145,7 @@ class User extends Authenticatable
 
     public function isFollowing(User $user)
     {
-        return $this->followers()->where('follower_id', $user->id)->exists();
+        return $this->following()->where('follower_id', $user->id)->exists();
     }
 
 }
